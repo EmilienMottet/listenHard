@@ -1,9 +1,17 @@
+require('./config/config');     //instantiate configuration variables
+require('./global_functions'); //instantiate global functions
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+// login + users
+const passport     = require('passport');
+
+const v1 = require('./routes/v1');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -22,6 +30,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Passport
+app.use(passport.initialize());
+
+//DATABASE
+const models = require("./models");
+
+// CORS
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization, Content-Type');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    // Pass to next layer of middleware
+    next();
+});
+
+app.use('/v1', v1);
 app.use('/', index);
 app.use('/users', users);
 
