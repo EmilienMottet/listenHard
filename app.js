@@ -55,6 +55,34 @@ app.use('/v1', v1);
 app.use('/', index);
 app.use('/users', users);
 
+
+//swagger
+
+var swaggerJSDoc = require('swagger-jsdoc');
+
+var options = {
+    swaggerDefinition: {
+        info: {
+            title: 'ListenHard', // Title (required)
+            version: '1.0.0', // Version (required)
+        },
+    },
+    apis: ['./routes/users.js'], // Path to the API docs
+};
+
+// Initialize swagger-jsdoc -> returns validated swagger spec in json format
+var swaggerSpec = swaggerJSDoc(options);
+
+var swaggerUi = require('swagger-ui-express');
+
+app.get('/api-docs.json', function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
