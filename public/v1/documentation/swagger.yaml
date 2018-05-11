@@ -1,0 +1,298 @@
+swagger: '2.0'
+info:
+  description: |-
+    This is documentatin for the ListenHard API. For every request you must include in the header: 
+     Content-Type: application/json 
+
+     For protected routes by authorization we use JWT. Each of these have a lock by them. Must include a Bearer Token in the header 
+     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...
+  version: 0.0.1
+  title: ListenHard API mongoDB + JWT
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email:
+      - amaury.punel@grenoble-inp.org
+      - emilien.mottet@grenoble-inp.org
+  license:
+    name: GPL 3
+    url: 'https://gitlab.com/listenHub/listenHard/blob/master/LICENSE'
+basePath: /v1
+tags:
+  - name: user
+    description: Authentication and More
+    externalDocs:
+      description: Find out more
+      url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'
+  - name: ListenHard
+    description: listen music everywhere through http
+schemes:
+  - http
+  - https
+paths:
+  /users:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: Creates user that can now be used for authentication
+      operationId: createUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Creates user
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUser'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreateUserResponse'
+        '422':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+    get:
+      tags:
+        - user
+      summary: Return user
+      description: This can only be done by the logged in user.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ReturnUserResponse'
+        '401':
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+      security:
+        - api_key: []
+    put:
+      tags:
+        - user
+      summary: Update user
+      description: This can only be done by the logged in user.
+      parameters:
+        - in: body
+          name: body
+          description: Creates user
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateUserBody'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful request
+          schema:
+            $ref: '#/definitions/ApiSuccessResponse'
+        '401':
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+      security:
+        - api_key: []
+    delete:
+      tags:
+        - user
+      summary: Soft delete user
+      description: This can only be done by the logged in user.
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: success
+          schema:
+            $ref: '#/definitions/ApiSuccessResponse'
+        '401':
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+        default:
+          description: successful operation
+      security:
+        - api_key: []
+  /users/hard:
+    delete:
+      tags:
+        - user
+      summary: Hard delete user
+      description: Remove user from database
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: success
+          schema:
+            $ref: '#/definitions/ApiSuccessResponse'
+        '401':
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+        default:
+          description: successful operation
+      security:
+        - api_key: []
+  /users/restore:
+    put:
+      tags:
+        - user
+      summary: Restore soft deleted user
+      description: ''
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: success
+          schema:
+            $ref: '#/definitions/ApiSuccessResponse'
+        '401':
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+        default:
+          description: successful operation
+      security:
+        - api_key: []
+  /users/login:
+    post:
+      tags:
+        - user
+      summary: User Login
+      description: Returns Bearer Token for JWT authentication
+      operationId: createUsersWithArrayInput
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: List of user object
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CreateUser'
+      responses:
+        '204':
+          description: success
+          schema:
+            $ref: '#/definitions/LoginUserResponse'
+        '422':
+          description: error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+securityDefinitions:
+  bearer_auth:
+    type: oauth2
+    authorizationUrl: 'user/login'
+    flow: implicit
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  CreateUser:
+    type: object
+    properties:
+      unique_key | email | phone:
+        type: string
+        example: '8885678345'
+      password:
+        type: string
+        example: secure-password
+  CreateUserResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      message:
+        type: string
+        example: Successfully created new user.
+      token:
+        type: string
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...
+        description: Authentication token
+  LoginUserResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      token:
+        type: string
+        example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...
+        description: Authentication token
+  ReturnUserResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      user:
+        type: object
+        properties:
+          first:
+            type: string
+            example: John
+          last:
+            type: string
+            example: doe
+          email:
+            type: string
+            example: john.doe@gmail.com
+          phone:
+            type: string
+            example: '8889401234'
+  UpdateUserBody:
+    type: object
+    properties:
+      first:
+        type: string
+        example: John
+      last:
+        type: string
+        example: doe
+      email:
+        type: string
+        example: john.doe@gmail.com
+      phone:
+        type: string
+        example: '8889401234'
+  ApiErrorResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      error:
+        type: string
+  ApiSuccessResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      message:
+        type: string
+  ApiUnauthorizezdResponse:
+    type: string
+    example: Unauthorized
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      type:
+        type: string
+      message:
+        type: string
+externalDocs:
+  description: Ensiwiki page
+  url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'

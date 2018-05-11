@@ -24,8 +24,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "serve-favicon": "~2.5.0",
-    "swagger-jsdoc": "^1.9.7",
-    "swagger-ui-express": "^3.0.8"
+    "swagger-ui-express": "^3.0.8",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^5.0.0-alpha.2",
