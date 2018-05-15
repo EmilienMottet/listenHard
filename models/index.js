@@ -25,8 +25,9 @@ if(CONFIG.db_host != ''){
 
     let db = mongoose.connection;
     module.exports = db;
+
     db.once('open', ()=>{
-        console.log('Connected to mongo at '+mongo_location);
+      console.log('Connected to mongo at '+mongo_location);
     })
     db.on('error', (error)=>{
         console.log("error", error);
