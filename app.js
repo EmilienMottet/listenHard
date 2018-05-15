@@ -52,8 +52,17 @@ app.use(function (req, res, next) {
 });
 
 app.use('/v1', v1);
+
 app.use('/', index);
 app.use('/users', users);
+
+// swagger
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./public/v1/documentation/swagger.yaml');
+
+
+app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
