@@ -34,5 +34,8 @@ router.post('/users/login', UserController.login);
 router.post('/songs', passport.authenticate('jwt', {
     session: false
 }), FileAudioController.create); // C
+router.get('/songs/bin/:trackID', passport.authenticate('jwt', {
+    session: false
+}), FileAudioController.playSong); // R
 
 module.exports = router;

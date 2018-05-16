@@ -15,7 +15,6 @@ mongoose.connection.on('open', () => {
         mongooseConnection: mongoose.connection
     });
     Attachment = gridfs.model;
-    console.log("Attachment done");
 })
 
 
@@ -80,3 +79,25 @@ const create = async function(req, res) {
 }
 
 module.exports.create = create;
+
+const playSong = async function(req,res){
+    res.set('content-type', 'audio/mp3');
+    res.set('accept-ranges', 'bytes');
+
+
+    var downloadStream = Attachment.readById(req.params.trackID);
+    downloadStream.on('data', (chunk) => {
+        res.write(chunk);
+    });
+
+    downloadStream.on('error', () => {
+        console.log(downloadStream == null || Attachment == null);
+        res.sendStatus(404);
+    });
+
+    downloadStream.on('end', () => {
+        res.end();
+    });
+}
+
+module.exports.playSong = playSong;
