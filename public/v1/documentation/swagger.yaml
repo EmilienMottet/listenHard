@@ -10,9 +10,7 @@ info:
   title: ListenHard API mongoDB + JWT
   termsOfService: 'http://swagger.io/terms/'
   contact:
-    email:
-      - amaury.punel@grenoble-inp.org
-      - emilien.mottet@grenoble-inp.org
+    email: 'amaury.punel@grenoble-inp.org'
   license:
     name: GPL 3
     url: 'https://gitlab.com/listenHub/listenHard/blob/master/LICENSE'
@@ -23,8 +21,11 @@ tags:
     externalDocs:
       description: Find out more
       url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'
-  - name: ListenHard
-    description: listen music everywhere through http
+  - name: song
+    description: Data about song 
+    externalDocs:
+      description: Find out more
+      url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'
 schemes:
   - http
   - https
@@ -71,7 +72,7 @@ paths:
           schema:
             $ref: '#/definitions/ApiUnauthorizezdResponse'
       security:
-        - api_key: []
+        - Bearer: []
     put:
       tags:
         - user
@@ -96,7 +97,7 @@ paths:
           schema:
             $ref: '#/definitions/ApiUnauthorizezdResponse'
       security:
-        - api_key: []
+        - Bearer: []
     delete:
       tags:
         - user
@@ -116,7 +117,7 @@ paths:
         default:
           description: successful operation
       security:
-        - api_key: []
+        - Bearer: []
   /users/hard:
     delete:
       tags:
@@ -137,7 +138,7 @@ paths:
         default:
           description: successful operation
       security:
-        - api_key: []
+        - Bearer: []
   /users/restore:
     put:
       tags:
@@ -158,7 +159,7 @@ paths:
         default:
           description: successful operation
       security:
-        - api_key: []
+        - Bearer: []
   /users/login:
     post:
       tags:
@@ -186,14 +187,76 @@ paths:
           description: error
           schema:
             $ref: '#/definitions/ApiErrorResponse'
+  /songs:
+    post:
+      tags:
+        - song
+      summary: Create song and upload file
+      description: Creates song which is add to this for the user
+      operationId: createSong
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: track
+          type: file
+          required: true
+          description: The song to upload (absolute path).
+        - in: formData
+          name: name
+          type: string
+          required: true
+          description: name of the song
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreateSongResponse'
+        '422':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '400':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '500':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
+  /songs/bin/{songBinId}:
+    get:
+      tags:
+        - song
+      summary: get song
+      description: get song by song id
+      produces:
+        - audio/mp3
+      parameters:
+      - name: "songBinId"
+        in: "path"
+        description: "ID of song to return"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreateSongResponse'
+        '404':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
 securityDefinitions:
-  bearer_auth:
-    type: oauth2
-    authorizationUrl: 'user/login'
-    flow: implicit
-  api_key:
+ Bearer:
     type: apiKey
-    name: api_key
+    name: Authorization
     in: header
 definitions:
   CreateUser:
@@ -293,6 +356,59 @@ definitions:
         type: string
       message:
         type: string
+  CreateSong:
+    type: object
+    properties:
+      unique_key | email | phone:
+        type: string
+        example: '8885678345'
+      password:
+        type: string
+        example: secure-password
+  CreateSongResponse:
+    type: object
+    properties:
+      song:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '5afc43cf67b8f6366fa824b1'
+          name:
+            type: string
+            example: 'Billie Jean, Michael Jackson'
+          users:
+            type: array
+            items:
+              type: object
+              properties:
+                permissions:
+                  type: array
+                  items:
+                    type: object
+                    example: 
+                _id:
+                  type: string
+                  example: '5afc43cf67b8f6366fa824b2'
+                user:
+                  type: string
+                  example: '5afc3c6f28654c71c55b2ae5'
+                  description: 'user object id'
+          fileAudioBin:
+            type: string
+            example: '5afc43cf67b8f6366fa824ae'
+          createdAt:
+            type: string
+            example: '2018-05-16T14:44:31.064Z'
+          __v:
+            type: integer
+            example: 0
+          id:
+            type: string
+            example: '5afc43cf67b8f6366fa824b1'
+      success:
+        type: boolean
+        example: true
 externalDocs:
   description: Ensiwiki page
   url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'
