@@ -1,14 +1,31 @@
 <template>
-  <nav class="menu">
-    <div class="left_elem">
-      <router-link to="/"><img src="../assets/logo.png" alt="ListenHub"></router-link>
+  <nav class="navbar is-transparent">
+    <div class="navbar-brand">
+      <router-link class="navbar-item" to="/">
+        <img src="../assets/logo.png" alt="ListenHub" width="112" height="28">
+      </router-link>
+      <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
-    <div class="right_elem">
-      <router-link to="/list">List</router-link>
-      <router-link to="/detail">Detail</router-link>
-      <router-link to="/about">About</router-link>
-      <button class="login" @click="show_login">Log In</button>
-      <button class="signup" @click="show_signup">Sign Up</button>
+
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div class="navbar-start">
+      </div>
+
+      <div class="navbar-end">
+        <router-link class="navbar-item" to="/list">List</router-link>
+        <router-link class="navbar-item" to="/detail">Detail</router-link>
+        <router-link class="navbar-item" to="/about">About</router-link>
+        <div class="navbar-item">
+          <button class="button is-primary" @click="show_signup">Sign Up</button>
+        </div>
+        <div class="navbar-item">
+          <button class="button" @click="show_login">Log In</button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -39,23 +56,8 @@ export default {
 </script>
 
 <style scoped>
-  .menu{
-    display: flex;
-    width:100%;
-    height: 3em;
+  nav{
     border-bottom: 1px solid lightgrey;
-  }
-
-  .left_elem{
-    float:left;
-  }
-
-  .right_elem{
-    right: 0;
-    position: fixed;
-  }
-
-  img{
-    height: 2em;
+    padding: 0em 1em 0em 1em;
   }
 </style>

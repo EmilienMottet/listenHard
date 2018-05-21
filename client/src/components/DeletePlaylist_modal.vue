@@ -1,26 +1,13 @@
 <template>
   <div class="login">
     <div class="login_header">
-      <h2>Log In to ListenHub</h2>
+      <h2 class="important">Are you sure you want to delete the playlist ?</h2>
     </div>
     <form name="login_form">
       <fieldset>
-        <div class="field">
-          <label class="label" for="email">E-mail</label>
-          <div class="control">
-            <input class="input" type="text" name="email" placeholder="Enter your e-mail">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label" for="pwd">Password</label>
-          <div class="control">
-            <input class="input" type="password" name="pwd" placeholder="Enter your password">
-          </div>
-        </div>
-
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link">Log In</button>
+            <button class="button is-link is-danger">Delete</button>
           </div>
           <div class="control">
             <button class="button is-text" @click="$emit('close')">Cancel</button>
@@ -33,7 +20,7 @@
 
 <script>
 export default {
-  name: 'Login_modal'
+  name: 'DeletePlaylist_modal'
 }
 </script>
 
@@ -41,10 +28,15 @@ export default {
   fieldset{
     border: none;
     padding: 1em;
+    display: flex;
+    justify-content:center;
   }
   .login_header{
     width: 100%;
     text-align: center;
     border-bottom: 1px solid lightgrey;
+  }
+  .important{
+    font-weight: bold;
   }
 </style>

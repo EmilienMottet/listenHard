@@ -1,8 +1,8 @@
 <template>
   <div class="playlist_object">
     <img src="" alt="playlist_image">
-    <p class="pl_name">{{playlist_name}}</p>
-    <p class="nb_songs">{{nb_songs}} songs</p>
+    <h2 class="pl_name">{{playlist_name}}</h2>
+    <h3 class="nb_songs">{{nb_songs}} songs</h3>
   </div>
 </template>
 
@@ -36,15 +36,11 @@ export default {
   background: grey;
  }
 
- p{
-  margin: 0;
- }
-
  .pl_name{
   font-weight: bold;
-  font-size: 1.5em;
  }
  .nb_songs{
   color: grey;
+  font-size: 0.8em;
  }
 </style>

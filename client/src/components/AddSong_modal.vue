@@ -1,26 +1,20 @@
 <template>
   <div class="login">
     <div class="login_header">
-      <h2>Log In to ListenHub</h2>
+      <h2>Add a song to the playlist</h2>
     </div>
     <form name="login_form">
       <fieldset>
         <div class="field">
-          <label class="label" for="email">E-mail</label>
+          <label class="label" for="link">Link</label>
           <div class="control">
-            <input class="input" type="text" name="email" placeholder="Enter your e-mail">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label" for="pwd">Password</label>
-          <div class="control">
-            <input class="input" type="password" name="pwd" placeholder="Enter your password">
+            <input class="input" type="text" name="link" placeholder="Enter the link to the song">
           </div>
         </div>
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link">Log In</button>
+            <button class="button is-link">Add</button>
           </div>
           <div class="control">
             <button class="button is-text" @click="$emit('close')">Cancel</button>
@@ -33,7 +27,7 @@
 
 <script>
 export default {
-  name: 'Login_modal'
+  name: 'AddSong_modal'
 }
 </script>
 

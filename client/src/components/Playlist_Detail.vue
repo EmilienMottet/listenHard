@@ -1,10 +1,12 @@
 <template>
   <div class="playlist_detail">
     <div class="playlist_info">
-      <h2>{{playlist_name}}</h2>
-      <p>{{nb_songs}} songs</p>
-      <button class="add_song">Add song</button>
-      <button class="del_playlist">Delete playlist</button>
+      <div>
+        <h2>{{playlist_name}}</h2>
+        <p>{{nb_songs}} songs</p>
+      </div>
+      <button class="button is-success" @click="show_add">Add song</button>
+      <button class="button is-danger" @click="show_delete">Delete playlist</button>
     </div>
     <div class="song_list">
       <SongObject
@@ -20,6 +22,8 @@
 
 <script>
 import SongObject from '@/components/song_object.vue'
+import AddSong from '@/components/addsong_modal.vue'
+import Delete from '@/components/deleteplaylist_modal.vue'
 
 export default {
   name: 'Playlist_Detail',
@@ -46,6 +50,22 @@ export default {
       ]
     }
   },
+  methods: {
+    show_add: function (event) {
+      this.$modal.show(AddSong, {
+        text: 'This text is passed as a property'
+      }, {
+        height: 'auto'
+      })
+    },
+    show_delete: function (event) {
+      this.$modal.show(Delete, {
+        text: 'This text is passed as a property'
+      }, {
+        height: 'auto'
+      })
+    }
+  },
   components: {
     SongObject
   }
@@ -55,5 +75,20 @@ export default {
 <style scoped>
   .playlist_list{
     display: flex;
+  }
+  .playlist_info{
+    display: flex;
+    align-items: center;
+    margin: 2em;
+  }
+  .playlist_info h2{
+    font-size: 2em;
+    font-weight: bold;
+  }
+  .playlist_info p{
+    color: grey;
+  }
+  .playlist_info button{
+    margin-left: 1em;
   }
 </style>

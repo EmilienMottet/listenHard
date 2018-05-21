@@ -23,8 +23,8 @@ export default {
  .song_object{
   display: flex;
   align-items: center;
-  width: 100%;
-  padding: 1em;
+  width: auto;
+  padding: 0.5em;
   border: 1px solid grey;
   margin: 0.5em;
   transition: 0.2s;
@@ -46,15 +46,12 @@ export default {
   background: grey;
  }
 
- p{
-  margin: 0;
- }
-
  .song_name{
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1em;
  }
  .song_link{
   color: grey;
+  font-size: 0.8em;
  }
 </style>
