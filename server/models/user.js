@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bcrypt_p = require('bcrypt-promise');
 const jwt = require('jsonwebtoken');
-const Company = require('./../models/company');
+const Song = require('./../models/song.js');
 const validate = require('mongoose-validator');
 
 let UserSchema = mongoose.Schema({
@@ -45,8 +45,8 @@ let UserSchema = mongoose.Schema({
     timestamps: true
 });
 
-UserSchema.virtual('companies', {
-    ref: 'Company',
+UserSchema.virtual('songs', {
+    ref: 'Song',
     localField: '_id',
     foreignField: 'users.user',
     justOne: false,
@@ -82,13 +82,13 @@ UserSchema.methods.comparePassword = async function(pw) {
     return this;
 }
 
-UserSchema.methods.Companies = async function() {
-    let err, companies;
-    [err, companies] = await to(Company.find({
+UserSchema.methods.Songs = async function() {
+    let err, songs;
+    [err, songs] = await to(Song.find({
         'users.user': this._id
     }));
-    if (err) TE('err getting companies');
-    return companies;
+    if (err) TE('err getting songs');
+    return songs;
 }
 
 UserSchema.virtual('full_name').set(function(name) {
@@ -115,7 +115,6 @@ UserSchema.methods.getJWT = function() {
 
 UserSchema.methods.toWeb = function() {
     let json = this.toJSON();
-    json.id = this._id; //this is for the front end
     return json;
 };
 

@@ -17,6 +17,20 @@ mongoose.connection.on('open', () => {
     Attachment = gridfs.model;
 })
 
+const getAll = async function(req, res){
+    res.setHeader('Content-Type', 'application/json');
+    let user = req.user;
+    let err, songs;
+    [err, songs] = await to(user.Songs());
+
+    let songs_json = [];
+    for (let i in songs){
+        let song = songs[i];
+        songs_json.push(song.toWeb());
+    }
+    return ReS(res, {songs: songs_json});
+}
+module.exports.getAll = getAll;
 
 
 const create = async function(req, res) {
