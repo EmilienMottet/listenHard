@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import PLObject from '@/components/playlist_object.vue'
+import PLObject from '@/components/Playlist_object.vue'
 
 export default {
   name: 'Playlist_List',
