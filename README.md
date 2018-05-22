@@ -5,6 +5,8 @@
 ## Build Setup
 
 ``` bash
+npm install -g nodemon 
+
 # install dependencies
 npm install
 
