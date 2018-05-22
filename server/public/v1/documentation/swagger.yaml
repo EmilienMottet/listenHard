@@ -356,15 +356,6 @@ definitions:
         type: string
       message:
         type: string
-  CreateSong:
-    type: object
-    properties:
-      unique_key | email | phone:
-        type: string
-        example: '8885678345'
-      password:
-        type: string
-        example: secure-password
   CreateSongResponse:
     type: object
     properties:
