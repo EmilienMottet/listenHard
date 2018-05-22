@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const custom = require('./../middleware/custom');
+
 const UserController = require('./../controllers/UserController');
 const FileAudioController = require('./../controllers/FileAudioController');
 
@@ -16,7 +18,7 @@ router.get('/', function(req, res, next) {
         data: {
             "version_number": "v1.0.0"
         }
-    })
+    });
 });
 
 router.post('/users', UserController.create); // C
@@ -30,6 +32,10 @@ router.delete('/users', passport.authenticate('jwt', {
     session: false
 }), UserController.remove); // D
 router.post('/users/login', UserController.login);
+
+router.get('/songs', passport.authenticate('jwt', {
+    session : false
+}),FileAudioController.getAll);
 
 router.post('/songs', passport.authenticate('jwt', {
     session: false
