@@ -3,6 +3,7 @@
     <div class="login_header">
       <h2>Add a song to the playlist</h2>
     </div>
+
     <form name="login_form">
       <fieldset>
         <div class="field">

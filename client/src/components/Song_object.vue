@@ -5,7 +5,7 @@
       <p class="song_name">{{song_name}}</p>
       <a class="song_link" :href="song_link" target="_blank">{{song_link}}</a>
     </div>
-    <button class="del_song">X</button>
+    <button class="delete is-large"></button>
   </div>
 </template>
 
