@@ -27,7 +27,7 @@ const create = async function(req, res) {
         storage: storage,
         limits: {
             fields: 1,
-            fileSize: 6000000000,
+            fileSize: 600000000,
             files: 1,
             parts: 2
         }
