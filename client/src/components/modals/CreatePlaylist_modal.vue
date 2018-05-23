@@ -9,7 +9,7 @@
         <div class="field">
           <label class="label" for="name">Name</label>
           <div class="control">
-            <input class="input" type="text" name="name" placeholder="Enter the name of the playlist">
+            <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the playlist">
           </div>
         </div>
 
@@ -28,6 +28,7 @@
 
 <script>
 import PlaylistService from '@/services/PlaylistService'
+import store from '@/store/store'
 
 export default {
   name: 'CreatePlaylist_modal',
@@ -40,7 +41,14 @@ export default {
   methods: {
     async create_playlist () {
       console.log('create_playlist : name = ' + this.name)
+      console.log('API : ')
+      console.log(`${store.state.token}`)
       try {
+        // console.log('get')
+        // const test = await PlaylistService.get_playlists()
+        // console.log('get')
+        // console.log(test)
+        // console.log('get')
         const response = await PlaylistService.create_playlist({
           name: this.name
         })

@@ -51,7 +51,7 @@ export default {
         let formData = new FormData()
         formData.append('file', this.file)
         const response = await SongService.add_song({
-          fileAudioBin: formData,
+          track: formData,
           name: this.name
         })
         console.log('Response :')

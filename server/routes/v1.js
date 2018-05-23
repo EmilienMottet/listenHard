@@ -34,24 +34,24 @@ router.delete('/users', passport.authenticate('jwt', {
 }), UserController.remove); // D
 router.post('/users/login', UserController.login);
 
-router.post('/playlist', passport.authenticate('jwt', {
+router.post('/playlists', passport.authenticate('jwt', {
     session: false
 }), PlaylistController.create); // C
-router.get('/playlist', passport.authenticate('jwt', {
+router.get('/playlists', passport.authenticate('jwt', {
     session: false
 }), PlaylistController.getAll); // R
 
-router.get('/playlist/:playlist_id', passport.authenticate('jwt', {
+router.get('/playlists/:playlist_id', passport.authenticate('jwt', {
     session: false
 }), custom.playlist, PlaylistController.get); // R
-router.put('/playlist/:playlist_id', passport.authenticate('jwt', {
+router.put('/playlists/:playlist_id', passport.authenticate('jwt', {
     session: false
 }), custom.playlist, PlaylistController.update); // U
-router.delete('/playlist/:playlist_id', passport.authenticate('jwt', {
+router.delete('/playlists/:playlist_id', passport.authenticate('jwt', {
     session: false
 }), custom.playlist, PlaylistController.remove); // D
 
-router.post('/playlist/:playlist_id/songs', passport.authenticate('jwt', {
+router.post('/playlists/:playlist_id/songs', passport.authenticate('jwt', {
     session: false
 }), custom.playlist, PlaylistController.addSongs); // U
 
