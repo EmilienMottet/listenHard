@@ -2,7 +2,7 @@ import Api from '@/services/Api'
 
 export default {
   add_song (song) {
-    return Api().post('songs',
+    return Api().post('songs/bin',
       song,
       {
         headers: {

@@ -1,15 +1,11 @@
 import Api from '@/services/Api'
 
 export default {
-  add_song (song) {
-    return Api().post('songs',
-      song,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-    )
+  get_playlists () {
+    return Api().get('playlists')
+  },
+  create_playlist (name) {
+    return Api().post('playlists', name)
   },
   delete_song (song) {
     return Api().delete('songs', song)
