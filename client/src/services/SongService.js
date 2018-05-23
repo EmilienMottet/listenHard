@@ -11,10 +11,10 @@ export default {
       }
     )
   },
-  delete_song (song) {
-    return Api().delete('songs', song)
-  },
-  modify_song (song) {
-    return Api().post('songs', song)
+  // delete_song (song) {
+  //   return Api().delete('songs', song)
+  // },
+  get_songs () {
+    return Api().get('songs')
   }
 }
