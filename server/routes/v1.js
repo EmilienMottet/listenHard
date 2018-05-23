@@ -51,6 +51,10 @@ router.delete('/playlist/:playlist_id', passport.authenticate('jwt', {
     session: false
 }), custom.playlist, PlaylistController.remove); // D
 
+router.post('/playlist/:playlist_id/songs', passport.authenticate('jwt', {
+    session: false
+}), custom.playlist, PlaylistController.addSongs); // U
+
 router.get('/songs', passport.authenticate('jwt', {
     session: false
 }), FileAudioController.getAll); // R

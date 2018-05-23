@@ -21,14 +21,31 @@ const getAll = async function(req, res){
     let err, playlists;
     [err, playlists] = await to(user.Playlists());
 
-    let playlists_json = []
+    let playlists_json = [];
     for (let i in playlists){
         let playlist = playlists[i];
-        playlists_json.push(playlist.toWeb())
+        playlists_json.push(playlist.toWeb());
     }
     return ReS(res, {playlists: playlists_json});
 }
 module.exports.getAll = getAll;
+
+const addSongs = async function(req, res){
+    let err, playlist, data;
+    playlist = req.playlist;
+    data = req.body;
+
+    for (var i = 0; i < data.length; i++) {
+        playlist.songs.push(data[i]);
+    }
+
+    [err, playlist] = await to(playlist.save());
+    if(err){
+        return ReE(res, err);
+    }
+    return ReS(res, {playlist:playlist.toWeb()});
+};
+module.exports.addSongs = addSongs;
 
 const get = function(req, res){
     res.setHeader('Content-Type', 'application/json');
@@ -39,7 +56,7 @@ module.exports.get = get;
 
 const update = async function(req, res){
     let err, playlist, data;
-    playlist = req.user;
+    playlist = req.playlist;
     data = req.body;
     playlist.set(data);
 
