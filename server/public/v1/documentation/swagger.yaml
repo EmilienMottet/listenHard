@@ -26,6 +26,11 @@ tags:
     externalDocs:
       description: Find out more
       url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'
+  - name: playlist
+    description: Data about playlist 
+    externalDocs:
+      description: Find out more
+      url: 'https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL'
 schemes:
   - http
   - https
@@ -201,19 +206,7 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/GetAllSongs'
-        '422':
-          description: Invalid operation
-          schema:
-            $ref: '#/definitions/ApiErrorResponse'
         '400':
-          description: Invalid operation
-          schema:
-            $ref: '#/definitions/ApiErrorResponse'
-        '401':
-          description: Invalid operation
-          schema:
-            $ref: '#/definitions/ApiUnauthorizezdResponse'
-        '500':
           description: Invalid operation
           schema:
             $ref: '#/definitions/ApiErrorResponse'
@@ -283,6 +276,156 @@ paths:
             $ref: '#/definitions/ApiErrorResponse'
       security:
         - Bearer: []
+  /playlists:
+    post:
+      tags:
+        - playlist
+      summary: Create playlist
+      description: Creates playlist that can now be used for add songs
+      operationId: createPlaylist
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Creates playlist
+          required: true
+          schema:
+            $ref: '#/definitions/CreatePlaylist'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreatePlaylistResponse'
+        '422':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
+    get:
+      tags:
+        - playlist
+      summary: Return all playlist for the current user
+      description: Get all playlist for the logged user.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ReturnPlaylistsResponse'
+        '401':
+          description: unauthorized
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+      security:
+        - Bearer: []
+  /playlists/{id}:
+    get:
+      tags:
+        - playlist
+      summary: get playlist
+      description: get playlist by playlist id
+      produces:
+        - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of playlist to return"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreatePlaylistResponse'
+        '404':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
+    put:
+      tags:
+        - playlist
+      summary: update playlist
+      description: update playlist by playlist id
+      produces:
+        - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of playlist to update"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreatePlaylistResponse'
+        '404':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
+    delete:
+      tags:
+        - playlist
+      summary: remove playlist
+      description: remove playlist by playlist id
+      produces:
+        - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of playlist to delete"
+        required: true
+        type: "string"
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiSuccessResponse'
+        '404':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
+  /playlists/{id}/songs:
+    post:
+      tags:
+        - playlist
+      summary: add song to playlist
+      description: add song to playlist by playlist id
+      produces:
+        - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of playlist to return"
+        required: true
+        type: "string"
+      - in: body
+        name: body
+        description: Creates user
+        required: true
+        schema:
+          $ref: '#/definitions/AddSongstoPlaylist'
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreatePlaylistResponse'
+        '404':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
+
 securityDefinitions:
  Bearer:
     type: apiKey
@@ -298,6 +441,12 @@ definitions:
       password:
         type: string
         example: secure-password
+  CreatePlaylist:
+    type: object
+    properties:
+      name:
+        type: string
+        example: 'greatest songs'
   CreateUserResponse:
     type: object
     properties:
@@ -311,6 +460,103 @@ definitions:
         type: string
         example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ...
         description: Authentication token
+  AddSongstoPlaylist:
+    type: array
+    items:
+      type: string
+    example: "['song_id']"
+  CreatePlaylistResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      playlist:
+        type: object
+        properties:
+          _id:
+            type: string
+            example: '5b05a1358e2248186355688d'
+          name:
+            type: string
+            example: 'greatest songs'
+          songs:
+            type: array
+            items:
+              type: string
+          users:
+            type: array
+            items:
+              type: object
+              properties:
+                permissions:
+                  type: array
+                  items:
+                    type: object
+                    example: 
+                _id:
+                  type: string
+                  example: '5afc43cf67b8f6366fa824b2'
+                user:
+                  type: string
+                  example: '5afc3c6f28654c71c55b2ae5'
+                  description: 'user object id'
+          createdAt:
+            type: string
+            example: '2018-05-16T14:44:31.064Z'
+          updateAt:
+            type: string
+            example: '2018-05-16T14:44:31.064Z'
+          __v:
+            type: integer
+            example: 0
+  ReturnPlaylistsResponse:
+    type: array
+    items:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        playlist:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: '5b05a1358e2248186355688d'
+            name:
+              type: string
+              example: 'greatest songs'
+            songs:
+              type: array
+              items:
+                type: string
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  permissions:
+                    type: array
+                    items:
+                      type: object
+                      example: 
+                  _id:
+                    type: string
+                    example: '5afc43cf67b8f6366fa824b2'
+                  user:
+                    type: string
+                    example: '5afc3c6f28654c71c55b2ae5'
+                    description: 'user object id'
+            createdAt:
+              type: string
+              example: '2018-05-16T14:44:31.064Z'
+            updateAt:
+              type: string
+              example: '2018-05-16T14:44:31.064Z'
+            __v:
+              type: integer
+              example: 0
   LoginUserResponse:
     type: object
     properties:
@@ -421,6 +667,9 @@ definitions:
               type: string
               example: '5afc43cf67b8f6366fa824ae'
             createdAt:
+              type: string
+              example: '2018-05-16T14:44:31.064Z'
+            updateAt:
               type: string
               example: '2018-05-16T14:44:31.064Z'
             __v:
