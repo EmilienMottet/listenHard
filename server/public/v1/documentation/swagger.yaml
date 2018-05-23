@@ -187,6 +187,38 @@ paths:
           description: error
           schema:
             $ref: '#/definitions/ApiErrorResponse'
+  /songs:
+    get:
+      tags:
+        - song
+      summary: Get all songs for the users
+      description: Get all songs for the users independs of playlist
+      operationId: getAllSongs
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GetAllSongs'
+        '422':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '400':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '401':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiUnauthorizezdResponse'
+        '500':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
   /songs/bin:
     post:
       tags:
@@ -245,8 +277,6 @@ paths:
       responses:
         '200':
           description: successful operation
-          schema:
-            $ref: '#/definitions/CreateSongResponse'
         '404':
           description: Invalid operation
           schema:
@@ -356,6 +386,52 @@ definitions:
         type: string
       message:
         type: string
+  GetAllSongs:
+    type: array
+    items:
+      type: object
+      properties:
+        song:
+          type: object
+          properties:
+            _id:
+              type: string
+              example: '5afc43cf67b8f6366fa824b1'
+            name:
+              type: string
+              example: 'Billie Jean, Michael Jackson'
+            users:
+              type: array
+              items:
+                type: object
+                properties:
+                  permissions:
+                    type: array
+                    items:
+                      type: object
+                      example: 
+                  _id:
+                    type: string
+                    example: '5afc43cf67b8f6366fa824b2'
+                  user:
+                    type: string
+                    example: '5afc3c6f28654c71c55b2ae5'
+                    description: 'user object id'
+            fileAudioBin:
+              type: string
+              example: '5afc43cf67b8f6366fa824ae'
+            createdAt:
+              type: string
+              example: '2018-05-16T14:44:31.064Z'
+            __v:
+              type: integer
+              example: 0
+            id:
+              type: string
+              example: '5afc43cf67b8f6366fa824b1'
+        success:
+          type: boolean
+          example: true
   CreateSongResponse:
     type: object
     properties:
