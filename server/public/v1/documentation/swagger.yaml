@@ -187,7 +187,7 @@ paths:
           description: error
           schema:
             $ref: '#/definitions/ApiErrorResponse'
-  /songs:
+  /songs/bin:
     post:
       tags:
         - song
