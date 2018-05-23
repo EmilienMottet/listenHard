@@ -12,7 +12,8 @@
       v-for="playlist in user_playlists"
       v-bind:playlist_name="playlist.name"
       v-bind:nb_songs="playlist.songs.length"
-      v-bind:key="playlist.id"
+      v-bind:key="playlist._id"
+      v-bind:id="playlist._id"
     >
     </PLObject>
   </div>
@@ -54,6 +55,9 @@ export default {
         height: 'auto'
       })
     }
+  },
+  async mounted () {
+    this.get_playlists()
   },
   components: {
     PLObject

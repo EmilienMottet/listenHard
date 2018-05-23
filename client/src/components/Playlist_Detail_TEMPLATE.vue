@@ -2,8 +2,8 @@
   <div class="playlist_detail">
     <div class="playlist_info">
       <div>
-        <h2>{{playlist_name}}</h2>
-        <p>{{playlist_songs.length}} songs</p>
+        <h2>{{playlist_name}} : {{ $route.params.id }}</h2>
+        <p>{{nb_songs}} songs</p>
       </div>
       <button class="button is-success" @click="show_add">Add song</button>
       <button class="button is-danger" @click="show_delete">Delete playlist</button>
@@ -24,38 +24,33 @@
 import SongObject from '@/components/Song_object.vue'
 import AddSong from '@/components/modals/AddSong_modal.vue'
 import Delete from '@/components/modals/DeletePlaylist_modal.vue'
-import PlaylistService from '@/services/PlaylistService'
 
 export default {
   name: 'Playlist_Detail',
   data: function () {
     return {
-      id: 0,
-      playlist_name: '',
+      playlist_name: 'Amaury MegaMixtape Volume 2',
+      nb_songs: 3,
       playlist_songs: [
+        {
+          id: 1,
+          title: 'Do the dishes',
+          link: 'http://www.youtube.com/'
+        },
+        {
+          id: 2,
+          title: 'Take out the trash',
+          link: 'http://www.youtube.com/'
+        },
+        {
+          id: 3,
+          title: 'Mow the lawn',
+          link: 'http://www.youtube.com/'
+        }
       ]
     }
   },
-  mounted () {
-    this.id = this.$route.params.id
-    this.get_playlist()
-  },
   methods: {
-    async get_playlist () {
-      console.log('get_playlist')
-      try {
-        const response = await PlaylistService.get_playlist(this.id)
-        this.playlist_name = response.data.playlist.name
-        this.playlist_songs = response.data.playlist.songs
-        console.log(response)
-        this.$emit('close')
-      } catch (error) {
-        this.error = error.response.data.error
-        alert(this.error)
-        console.log(this.error)
-        console.log(error)
-      }
-    },
     show_add: function (event) {
       this.$modal.show(AddSong, {
         text: 'This text is passed as a property'

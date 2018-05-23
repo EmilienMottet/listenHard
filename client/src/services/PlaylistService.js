@@ -4,13 +4,13 @@ export default {
   get_playlists () {
     return Api().get('playlists')
   },
+  get_playlist (id) {
+    return Api().get('playlists/' + id)
+  },
   create_playlist (playlist) {
     return Api().post('playlists', playlist)
   },
-  delete_song (song) {
-    return Api().delete('songs', song)
-  },
-  modify_song (song) {
-    return Api().post('songs', song)
+  delete_playlist (id) {
+    return Api().delete('playlists/' + id)
   }
 }
