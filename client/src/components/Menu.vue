@@ -16,14 +16,18 @@
       </div>
 
       <div class="navbar-end">
-        <router-link class="navbar-item" to="/list">List</router-link>
-        <router-link class="navbar-item" to="/detail">Detail</router-link>
+        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/list">List</router-link>
+        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/detail">Detail</router-link>
+        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/files">Files</router-link>
         <router-link class="navbar-item" to="/about">About</router-link>
-        <div class="navbar-item">
+        <div v-if="!$store.state.isUserLoggedIn" class="navbar-item">
           <button class="button is-primary" @click="show_signup">Sign Up</button>
         </div>
-        <div class="navbar-item">
+        <div v-if="!$store.state.isUserLoggedIn" class="navbar-item">
           <button class="button" @click="show_login">Log In</button>
+        </div>
+        <div v-if="$store.state.isUserLoggedIn" class="navbar-item">
+          <button class="button" @click="logout">Log Out</button>
         </div>
       </div>
     </div>
@@ -31,8 +35,8 @@
 </template>
 
 <script>
-import Login from '@/components/Login_modal.vue'
-import Signup from '@/components/Signup_modal.vue'
+import Login from '@/components/modals/Login_modal.vue'
+import Signup from '@/components/modals/Signup_modal.vue'
 
 export default {
   name: 'Menu',
@@ -49,6 +53,14 @@ export default {
         text: 'This text is passed as a property'
       }, {
         height: 'auto'
+      })
+    },
+    logout: function (event) {
+      console.log('Log out')
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('setUser', null)
+      this.$router.push({
+        name: 'home'
       })
     }
   }

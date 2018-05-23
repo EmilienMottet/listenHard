@@ -3,7 +3,7 @@
     <div class="login_header">
       <h2 class="important">Are you sure you want to delete the playlist ?</h2>
     </div>
-    <form name="login_form">
+    <!-- <form name="login_form"> -->
       <fieldset>
         <div class="field is-grouped">
           <div class="control">
@@ -14,7 +14,7 @@
           </div>
         </div>
       </fieldset>
-    </form>
+    <!-- </form> -->
   </div>
 </template>
 

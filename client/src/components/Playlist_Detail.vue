@@ -22,8 +22,8 @@
 
 <script>
 import SongObject from '@/components/Song_object.vue'
-import AddSong from '@/components/AddSong_modal.vue'
-import Delete from '@/components/DeletePlaylist_modal.vue'
+import AddSong from '@/components/modals/AddSong_modal.vue'
+import Delete from '@/components/modals/DeletePlaylist_modal.vue'
 
 export default {
   name: 'Playlist_Detail',
