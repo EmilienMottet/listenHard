@@ -12,29 +12,29 @@
 
 <script>
 import PLObject from '@/components/Playlist_object.vue'
+import PlaylistService from '@/services/PlaylistService'
 
 export default {
   name: 'Playlist_List',
   data: function () {
     return {
       newTodoText: '',
-      user_playlists: [
-        {
-          id: 1,
-          title: 'Do the dishes',
-          nb_songs: 32
-        },
-        {
-          id: 2,
-          title: 'Take out the trash',
-          nb_songs: 1
-        },
-        {
-          id: 3,
-          title: 'Mow the lawn',
-          nb_songs: 28
-        }
-      ]
+      user_playlists: []
+    }
+  },
+  methods: {
+    async login () {
+      console.log('Login : mail = ' + this.email + '; password = ' + this.password)
+      try {
+        const response = await PlaylistService.getPlaylist()
+        console.log(response)
+        this.$emit('close')
+      } catch (error) {
+        this.error = error.response.data.error
+        alert(this.error)
+        console.log(this.error)
+        console.log(error)
+      }
     }
   },
   components: {
