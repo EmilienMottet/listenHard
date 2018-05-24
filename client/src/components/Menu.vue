@@ -16,9 +16,9 @@
       </div>
 
       <div class="navbar-end">
-        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/list">List</router-link>
+        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/list">My Playlists</router-link>
         <!-- <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/detail">Detail</router-link> -->
-        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/files">Files</router-link>
+        <router-link v-if="$store.state.isUserLoggedIn" class="navbar-item" to="/files">My Files</router-link>
         <router-link class="navbar-item" to="/about">About</router-link>
         <div v-if="!$store.state.isUserLoggedIn" class="navbar-item">
           <button class="button is-primary" @click="show_signup">Sign Up</button>

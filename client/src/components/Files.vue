@@ -10,8 +10,8 @@
     <div class="song_list">
       <SongObject
         v-for="file in files"
-        v-bind:song_name="file.title"
-        v-bind:key="file.id"
+        v-bind:song_name="file.name"
+        v-bind:key="file._id"
       >
       </SongObject>
     </div>
@@ -20,7 +20,7 @@
 
 <script>
 import SongObject from '@/components/Song_object.vue'
-import AddSong from '@/components/modals/AddSong_modal.vue'
+import UploadSong from '@/components/modals/UploadSong_modal.vue'
 import SongService from '@/services/SongService'
 
 export default {
@@ -50,7 +50,7 @@ export default {
       }
     },
     show_add: function (event) {
-      this.$modal.show(AddSong, {
+      this.$modal.show(UploadSong, {
         text: 'This text is passed as a property'
       }, {
         height: 'auto'
