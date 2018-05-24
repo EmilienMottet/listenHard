@@ -49,11 +49,9 @@ export default {
     async add_song () {
       try {
         let formData = new FormData()
-        formData.append('file', this.file)
-        const response = await SongService.add_song({
-          track: formData,
-          name: this.name
-        })
+        formData.append('track', this.file)
+        formData.append('name', this.name)
+        const response = await SongService.add_song(formData)
         console.log('Response :')
         console.log(response)
         this.$router.push({

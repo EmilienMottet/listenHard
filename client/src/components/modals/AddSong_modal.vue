@@ -50,7 +50,7 @@ export default {
       try {
         let formData = new FormData()
         formData.append('track', this.file)
-        formData.append('name',this.name)
+        formData.append('name', this.name)
         const response = await SongService.add_song(formData)
         console.log('Response :')
         console.log(response)
