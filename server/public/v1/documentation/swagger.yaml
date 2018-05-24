@@ -359,6 +359,12 @@ paths:
         description: "ID of playlist to update"
         required: true
         type: "string"
+      - in: body
+        name: body
+        description: Creates user
+        required: true
+        schema:
+         $ref: '#/definitions/CreatePlaylistResponse'
       responses:
         '200':
           description: successful operation
