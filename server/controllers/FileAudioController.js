@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const { Readable } = require('stream');
 
+const gridFsService = require('../services/GridFsService');
 
 var Attachment;
 //instantiate mongoose-gridfs
@@ -61,10 +62,9 @@ const create = async function(req, res) {
         readableTrackStream.push(req.file.buffer);
         readableTrackStream.push(null);
 
-        Attachment.write({
-                filename: trackName,
-                contentType: 'audio/mp3'
-            }, readableTrackStream,
+        gridFsService.uploadSong(
+            trackName,
+            readableTrackStream,
             async function(error, createdFile) {
                 var id = createdFile._id;
                 if (error) {
@@ -90,7 +90,7 @@ const create = async function(req, res) {
             }
         );
     });
-}
+};
 
 module.exports.create = create;
 
