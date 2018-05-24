@@ -22,5 +22,9 @@ const uploadSong = function(trackName,readableTrackStream,callback){
                      callback
                     );
 };
-
 module.exports.uploadSong = uploadSong;
+
+const readSong = function(trackID){
+    return Attachment.readById(trackID);
+}
+module.exports.readSong = readSong;

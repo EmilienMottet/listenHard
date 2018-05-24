@@ -99,7 +99,7 @@ const playSong = async function(req,res){
     res.set('accept-ranges', 'bytes');
 
 
-    var downloadStream = Attachment.readById(req.params.trackID);
+    var downloadStream = gridFsService.readSong(req.params.trackID);
     downloadStream.on('data', (chunk) => {
         res.write(chunk);
     });
