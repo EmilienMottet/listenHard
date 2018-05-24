@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const bcrypt_p = require('bcrypt-promise');
 const jwt = require('jsonwebtoken');
 const Song = require('./../models/song.js');
+const Playlist = require('./../models/playlist.js');
 const validate = require('mongoose-validator');
 
 let UserSchema = mongoose.Schema({
@@ -89,6 +90,15 @@ UserSchema.methods.Songs = async function() {
     }));
     if (err) TE('err getting songs');
     return songs;
+}
+
+UserSchema.methods.Playlists = async function() {
+    let err, playlists;
+    [err, playlists] = await to(Playlist.find({
+        'users.user': this._id
+    }));
+    if (err) TE('err getting playlists');
+    return playlists;
 }
 
 UserSchema.virtual('full_name').set(function(name) {

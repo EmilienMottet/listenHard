@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import About from '@/components/About'
 import List from '@/components/Playlist_List'
 import Detail from '@/components/Playlist_Detail'
+import Files from '@/components/Files'
 
 Vue.use(Router)
 
@@ -29,9 +30,14 @@ export default new Router({
       component: List
     },
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'detail',
       component: Detail
+    },
+    {
+      path: '/files',
+      name: 'files',
+      component: Files
     }
   ]
 })

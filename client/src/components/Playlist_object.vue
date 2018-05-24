@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist_object">
+  <div class="playlist_object" @click="open_playlist">
     <img src="" alt="playlist_image">
     <h2 class="pl_name">{{playlist_name}}</h2>
     <h3 class="nb_songs">{{nb_songs}} songs</h3>
@@ -11,8 +11,17 @@ export default {
   name: 'playlist_object',
   props: [
     'playlist_name',
-    'nb_songs'
-  ]
+    'nb_songs',
+    'id'
+  ],
+  methods: {
+    open_playlist () {
+      console.log('Opening playlist : ' + this.id)
+      this.$router.push({
+        path: 'detail/' + this.id
+      })
+    }
+  }
 }
 </script>
 
