@@ -2,37 +2,70 @@ const Song = require('../models').Song;
 
 const mongoose = require('mongoose');
 const multer = require('multer');
-const { Readable } = require('stream');
+const {
+    Readable
+} = require('stream');
 
 const gridFsService = require('../services/GridFsService');
+const youtubeDlService = require('../services/YoutubeDlService');
 
-var Attachment;
-//instantiate mongoose-gridfs
-mongoose.connection.on('open', () => {
-    var gridfs = require('mongoose-gridfs')({
-        collection: 'tracks',
-        model: 'FileAudioBin',
-        // bucketName : '
-        mongooseConnection: mongoose.connection
-    });
-    Attachment = gridfs.model;
-})
-
-const getAll = async function(req, res){
+const getAll = async function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     let user = req.user;
     let err, songs;
     [err, songs] = await to(user.Songs());
 
     let songs_json = [];
-    for (let i in songs){
+    for (let i in songs) {
         let song = songs[i];
         songs_json.push(song.toWeb());
     }
-    return ReS(res, {songs: songs_json});
-}
+    return ReS(res, {
+        songs: songs_json
+    });
+};
 module.exports.getAll = getAll;
 
+const createFromYoutube = async function(req, res) {
+    if (!req.body.name) {
+        console.log(req.body);
+        return ReE(res, {
+            message: "No track name in request body"
+        }, 400);
+    }
+    if (!req.body.youtubeUrl) {
+        return ReE(res, {
+            message: "No youtubeUrl in request body"
+        }, 400);
+    }
+    youtubeDlService.createYoutubeSong(
+        req.body.youtubeUrl,
+        req.body.name,
+        async function(error, createdFile) {
+            if (error) {
+                res.status(500).send(error);
+            }
+
+            var id = createdFile._id;
+            res.setHeader('Content-Type', 'application/json');
+            let err, song;
+            let user = req.user;
+
+            let song_info = req.body;
+            song_info.users = [{
+                user: user._id
+            }];
+            song_info.fileAudioBin = id;
+
+            [err, song] = await to(Song.create(song_info));
+            if (err) return ReE(res, err, 422);
+
+            return ReS(res, {
+                song: song.toWeb()
+            }, 201);
+        });
+}
+module.exports.createFromYoutube = createFromYoutube;
 
 const create = async function(req, res) {
     //obtain a model
@@ -50,9 +83,15 @@ const create = async function(req, res) {
 
     upload.single('track')(req, res, (err) => {
         if (err) {
-            return ReE(res, {err,  message: "Upload Request Validation Failed"},400);
+            return ReE(res, {
+                err,
+                message: "Upload Request Validation Failed"
+            }, 400);
         } else if (!req.body.name) {
-            return ReE(res, {err,  message: "No track name in request body"},400);
+            return ReE(res, {
+                err,
+                message: "No track name in request body"
+            }, 400);
         }
 
         let trackName = req.body.name;
@@ -66,11 +105,11 @@ const create = async function(req, res) {
             trackName,
             readableTrackStream,
             async function(error, createdFile) {
-                var id = createdFile._id;
                 if (error) {
                     res.status(500).send(error);
                 }
 
+                var id = createdFile._id;
                 res.setHeader('Content-Type', 'application/json');
                 let err, song;
                 let user = req.user;
@@ -94,7 +133,7 @@ const create = async function(req, res) {
 
 module.exports.create = create;
 
-const playSong = async function(req,res){
+const playSong = async function(req, res) {
     res.set('content-type', 'audio/mp3');
     res.set('accept-ranges', 'bytes');
 
@@ -105,7 +144,7 @@ const playSong = async function(req,res){
     });
 
     downloadStream.on('error', () => {
-        console.log(downloadStream == null || Attachment == null);
+        console.log(downloadStream == null);
         res.sendStatus(404);
     });
 
