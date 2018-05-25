@@ -276,6 +276,43 @@ paths:
             $ref: '#/definitions/ApiErrorResponse'
       security:
         - Bearer: []
+  /songs/youtube:
+    post:
+      tags:
+        - song
+      summary: Create song and upload file
+      description: Creates song which is add to this for the user
+      operationId: createSongFromYoutube
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Give name of the trak and its youtube url
+          required: true
+          schema:
+            $ref: '#/definitions/WebserviceYoutube'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/CreateSongResponse'
+        '422':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '400':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '500':
+          description: Invalid operation
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+      security:
+        - Bearer: []
   /playlists:
     post:
       tags:
@@ -431,7 +468,6 @@ paths:
             $ref: '#/definitions/ApiErrorResponse'
       security:
         - Bearer: []
-
 securityDefinitions:
  Bearer:
     type: apiKey
@@ -453,6 +489,15 @@ definitions:
       name:
         type: string
         example: 'greatest songs'
+  WebserviceYoutube:
+    type: object
+    properties:
+      name:
+        type: string
+        example: 'My title song'
+      youtubeUrl:
+        type: string
+        example: 'https://www.youtube.com/watch?v=IuipUDqBI6s'
   CreateUserResponse:
     type: object
     properties:
@@ -628,16 +673,6 @@ definitions:
   ApiUnauthorizezdResponse:
     type: string
     example: Unauthorized
-  ApiResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-      type:
-        type: string
-      message:
-        type: string
   GetAllSongs:
     type: array
     items:
