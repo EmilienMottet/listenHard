@@ -12,5 +12,8 @@ export default {
   },
   delete_playlist (id) {
     return Api().delete('playlists/' + id)
+  },
+  add_song (id, playlistInfo) {
+    return Api().put('playlists/' + id, playlistInfo)
   }
 }

@@ -13,13 +13,6 @@
           </div>
         </div>
 
-        <div class="field">
-          <label class="label" for="file">File</label>
-          <div class="control">
-            <input class="input" type="file" name="file" placeholder="Choose a file" ref="file" v-on:change="handleFileUpload()"/>
-          </div>
-        </div>
-
         <div class="field is-grouped">
           <div class="control">
             <button class="button is-link" @click="add_song">Add</button>
@@ -34,29 +27,23 @@
 </template>
 
 <script>
-import SongService from '@/services/SongService'
+import PlaylistService from '@/services/PlaylistService'
 
 export default {
   name: 'AddSong_modal',
   data () {
     return {
-      file: '',
       name: '',
       error: null
     }
   },
   methods: {
     async add_song () {
+      console.log('add_song: id = ' + this.name)
       try {
-        let formData = new FormData()
-        formData.append('track', this.file)
-        formData.append('name', this.name)
-        const response = await SongService.add_song(formData)
+        const response = await PlaylistService.add_song(this.name)
         console.log('Response :')
         console.log(response)
-        this.$router.push({
-          name: 'list'
-        })
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error

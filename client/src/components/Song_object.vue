@@ -3,7 +3,7 @@
     <img src="" alt="from_info">
     <div class="song_info">
       <p class="song_name">{{song_name}}</p>
-      <a class="song_link" :href="song_link" target="_blank">{{song_link}}</a>
+      <p class="song_link">ID : {{song_ID}}</p>
     </div>
     <button class="delete is-large"></button>
   </div>
@@ -14,7 +14,7 @@ export default {
   name: 'song_object',
   props: [
     'song_name',
-    'song_link'
+    'song_ID'
   ]
 }
 </script>

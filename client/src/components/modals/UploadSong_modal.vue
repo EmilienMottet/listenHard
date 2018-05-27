@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="login_header">
-      <h2>Add a song to the playlist</h2>
+      <h2>Upload a mp3 file</h2>
     </div>
 
     <!-- <form name="login_form"> -->
@@ -37,7 +37,7 @@
 import SongService from '@/services/SongService'
 
 export default {
-  name: 'AddSong_modal',
+  name: 'UploadSong_modal',
   data () {
     return {
       file: '',
@@ -54,9 +54,6 @@ export default {
         const response = await SongService.add_song(formData)
         console.log('Response :')
         console.log(response)
-        this.$router.push({
-          name: 'list'
-        })
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error

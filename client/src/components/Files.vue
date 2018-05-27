@@ -11,6 +11,7 @@
       <SongObject
         v-for="file in files"
         v-bind:song_name="file.name"
+        v-bind:song_ID="file._id"
         v-bind:key="file._id"
       >
       </SongObject>
