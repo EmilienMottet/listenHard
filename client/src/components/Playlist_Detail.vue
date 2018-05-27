@@ -32,8 +32,8 @@ export default {
     return {
       id: 0,
       playlist_name: '',
-      playlist_songs: [
-      ]
+      playlist_songs: [],
+      playlist_object: null
     }
   },
   mounted () {
@@ -47,8 +47,8 @@ export default {
         const response = await PlaylistService.get_playlist(this.id)
         this.playlist_name = response.data.playlist.name
         this.playlist_songs = response.data.playlist.songs
+        this.playlist_object = response.data.playlist
         console.log(response)
-        this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error
         alert(this.error)
