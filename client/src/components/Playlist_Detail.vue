@@ -8,12 +8,14 @@
       <button class="button is-success" @click="show_add">Add song</button>
       <button class="button is-danger" @click="show_delete">Delete playlist</button>
     </div>
+    <span>
+      SONGS : {{playlist_songs}}
+    </span>
     <div class="song_list">
       <SongObject
         v-for="song in playlist_songs"
-        v-bind:song_name="song.title"
-        v-bind:song_link="song.link"
-        v-bind:key="song.id"
+        v-bind:song_name="song"
+        v-bind:key="song"
       >
       </SongObject>
     </div>
@@ -48,7 +50,7 @@ export default {
         this.playlist_name = response.data.playlist.name
         this.playlist_songs = response.data.playlist.songs
         this.playlist_object = response.data.playlist
-        console.log(response)
+        // console.log(response)
       } catch (error) {
         this.error = error.response.data.error
         alert(this.error)
