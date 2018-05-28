@@ -8,14 +8,11 @@
       <button class="button is-success" @click="show_add">Add song</button>
       <button class="button is-danger" @click="show_delete">Delete playlist</button>
     </div>
-    <span>
-      SONGS : {{playlist_songs}}
-    </span>
     <div class="song_list">
       <SongObject
         v-for="song in playlist_songs"
-        v-bind:song_name="song"
-        v-bind:key="song"
+        v-bind:song_name="song._id"
+        v-bind:key="song._id"
       >
       </SongObject>
     </div>

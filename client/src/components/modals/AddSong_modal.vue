@@ -15,13 +15,13 @@
           <div class="field">
             <label class="label" for="link">Link</label>
             <div class="control">
-              <input class="input" type="text" name="link" placeholder="Enter the link to the song">
+              <input class="input" type="text" name="link" v-model="link" placeholder="Enter the link to the song">
             </div>
           </div>
           <div class="field">
             <label class="label" for="name">Name</label>
             <div class="control">
-              <input class="input" type="text" name="name" placeholder="Enter the name of the song">
+              <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the song">
             </div>
           </div>
         </div>
@@ -79,7 +79,16 @@ export default {
           console.log(this.songs_id)
           response = await PlaylistService.add_song(this.playlist_id, this.songs_id)
         } else {
-          response = 'APPEL WEBSERVICE'
+          if (this.name === '' || this.link === '') {
+            alert('Name and link cannot be empty')
+          } else {
+            // response = await PlaylistService.add_song_youtube(this.playlist_id, {
+            //   name: this.name,
+            //   youtubeUrl: this.link})
+            response = await SongService.add_youtube_song({
+              name: this.name,
+              youtubeUrl: this.link})
+          }
         }
         console.log('Response :')
         console.log(response)

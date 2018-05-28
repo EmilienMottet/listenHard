@@ -12,6 +12,9 @@ export default {
       }
     )
   },
+  add_youtube_song (song) {
+    return Api().post('songs/youtube', song)
+  },
   // delete_song (song) {
   //   return Api().delete('songs', song)
   // },
