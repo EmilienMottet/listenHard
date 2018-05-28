@@ -30,6 +30,20 @@ const getAll = async function(req, res){
 }
 module.exports.getAll = getAll;
 
+const deleteSongs = async function(req, res){
+    let err, playlist, data;
+    playlist = req.playlist;
+    data = req.body;
+    playlist.songs.pop(data[0]);
+
+    [err, playlist] = await to(playlist.save());
+    if(err){
+        return ReE(res, err);
+    }
+    return ReS(res, {playlist:playlist.toWeb()});
+};
+module.exports.deleteSongs = deleteSongs;
+
 const addSongs = async function(req, res){
     let err, playlist, data;
     playlist = req.playlist;

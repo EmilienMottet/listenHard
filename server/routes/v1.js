@@ -53,7 +53,11 @@ router.delete('/playlists/:playlist_id', passport.authenticate('jwt', {
 
 router.post('/playlists/:playlist_id/songs', passport.authenticate('jwt', {
     session: false
-}), custom.playlist, PlaylistController.addSongs); // U
+}), custom.playlist, PlaylistController.addSongs); // C
+
+router.delete('/playlists/:playlist_id/songs', passport.authenticate('jwt', {
+    session: false
+}), custom.playlist, PlaylistController.deleteSongs); // C
 
 router.get('/songs', passport.authenticate('jwt', {
     session: false
