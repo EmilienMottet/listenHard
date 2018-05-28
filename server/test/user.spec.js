@@ -13,30 +13,32 @@ var auth = {};
 
 beforeEach(function(done) {
 
+    function loginUser(auth) {
+        request(app)
+            .post("/v1/users")
+            .send({
+                email: 'logged@gmail.com',
+                password: 'secure-password'
+            })
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
+            .expect(201)
+            .end(function(err, res) {
+                onResponse(err, res);
+            });
+
+        function onResponse(err, res) {
+            auth.token = res.body.token;
+            return done();
+        }
+    };
+
     function clearDB() {
         for (var i in mongoose.connection.collections) {
             mongoose.connection.collections[i].remove(function() {});
         }
-        return done();
+        return loginUser(auth);
     }
-
-    function loginUser(auth) {
-        return function(done) {
-            request
-                .post('/v1/users')
-                .send({
-                    email: 'test@test.com',
-                    password: 'test'
-                })
-                .expect(200)
-                .end(onResponse);
-
-            function onResponse(err, res) {
-                auth.token = res.body.token;
-                return done();
-            }
-        };
-    };
 
     if (mongoose.connection.readyState === 0) {
         mongoose.connect(mongo_location, function(err) {
@@ -48,7 +50,7 @@ beforeEach(function(done) {
     } else {
         return clearDB();
     }
-    loginUser(auth);
+
 });
 
 afterEach(function(done) {
@@ -70,12 +72,11 @@ describe('API Tests user', function() {
                     done();
                 });
         });
-        it('should be unauthorized', function(done) {
+        it('get success', function(done) {
             request(app)
                 .get('/v1/users')
-                .set('Content-Type', 'application/json')
                 .set('Accept', 'application/json')
-                .set('Authorization', 'bearer ' + auth.token)
+                .set('Authorization', auth.token)
                 .expect(200)
                 .end(function(err, res) {
                     if (err) throw err;
