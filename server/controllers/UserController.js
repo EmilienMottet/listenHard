@@ -5,9 +5,10 @@ const create = async function(req, res){
     res.setHeader('Content-Type', 'application/json');
     const body = req.body;
     if(!body.unique_key && !body.email && !body.phone){
-        return ReE(res, 'Please enter an email or phone number to register.');
+        console.log(req.body);
+        return ReE(res, 'Please enter an email or phone number to register.',422);
     } else if(!body.password){
-        return ReE(res, 'Please enter a password to register.');
+        return ReE(res, 'Please enter a password to register.',422);
     }else{
         let err, user;
 
