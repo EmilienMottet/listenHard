@@ -17,7 +17,7 @@ cache:
 test client:
   stage: test
   script:
-    - cd server
+    - cd client
     - npm install
     - npm test
 
@@ -28,9 +28,27 @@ test server:
     - npm install
     - npm test
 
-pack:
+test server coverage:
+  stage: test
+  script:
+    -cd server
+    -npm install
+    -istanbul cover _mocha
+
+pack server:
   stage: deploy
   script:
+    - cd server
+    - npm install
+    - npm pack
+  artifacts:
+    paths:
+    - ./*.tgz
+
+pack client:
+  stage: deploy
+  script:
+    - cd client
     - npm install
     - npm pack
   artifacts:
