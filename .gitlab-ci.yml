@@ -14,6 +14,13 @@ cache:
   paths:
   - node_modules/
 
+test client:
+  stage: test
+  script:
+    - cd server
+    - npm install
+    - npm test
+
 test server:
   stage: test
   script:
