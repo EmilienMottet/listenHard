@@ -5,6 +5,13 @@ import App from './App'
 import router from './router'
 import store from '@/store/store'
 import vmodal from 'vue-js-modal'
+
+import 'aplayer/dist/APlayer.min.css'
+
+var ap = 'TEST'
+
+Vue.prototype.$player = ap
+
 Vue.use(vmodal, { dynamic: true })
 
 Vue.config.productionTip = false

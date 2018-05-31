@@ -12,10 +12,16 @@ export default {
       }
     )
   },
+  add_youtube_song (song) {
+    return Api().post('songs/youtube', song)
+  },
   // delete_song (song) {
   //   return Api().delete('songs', song)
   // },
   get_songs () {
     return Api().get('songs')
+  },
+  get_song_bin (id) {
+    return Api().get('songs/bin/' + id)
   }
 }

@@ -66,9 +66,7 @@ router.get('/songs', passport.authenticate('jwt', {
 router.post('/songs/bin', passport.authenticate('jwt', {
     session: false
 }), FileAudioController.create); // C
-router.get('/songs/bin/:trackID', passport.authenticate('jwt', {
-    session: false
-}), FileAudioController.playSong); // R
+router.get('/songs/bin/:trackID', FileAudioController.playSong); // R
 
 router.post('/songs/youtube', passport.authenticate('jwt', {
     session: false

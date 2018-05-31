@@ -5,19 +5,37 @@
     </div>
 
     <!-- <form name="login_form"> -->
+    <div class="add_choice">
+      <button id="via_link_but" class="button" @click="set_link_fields">Link</button>
+      <button id="via_file_but" class="button" @click="set_file_fields">File</button>
+    </div>
+
       <fieldset>
-        <div class="field">
-          <label class="label" for="name">Name</label>
-          <div class="control">
-            <input class="input" type="text" name="name" placeholder="Enter the name of the song">
+        <div id="via_link_fields" v-show="fields_activated == 'link'">
+          <div class="field">
+            <label class="label" for="link">Link</label>
+            <div class="control">
+              <input class="input" type="text" name="link" v-model="link" placeholder="Enter the link to the song">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="name">Name</label>
+            <div class="control">
+              <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the song">
+            </div>
           </div>
         </div>
 
-        <div class="field">
-          <label class="label" for="file">File</label>
-          <div class="control">
-            <input class="input" type="file" name="file" placeholder="Choose a file" ref="file" v-on:change="handleFileUpload()"/>
-          </div>
+        <div id="via_file_fields" v-show="fields_activated == 'file'">
+          <SongAddObject
+            v-for="song in user_songs"
+            v-bind:song_name="song.name"
+            v-bind:song_ID="song._id"
+            v-bind:key="song._id"
+            v-model="songs_id"
+            >
+          </SongAddObject>
+          <span>Songs : {{songs_id}}</span>
         </div>
 
         <div class="field is-grouped">
@@ -35,28 +53,45 @@
 
 <script>
 import SongService from '@/services/SongService'
+import PlaylistService from '@/services/PlaylistService'
+import SongAddObject from '@/components/Song_add_object'
 
 export default {
   name: 'AddSong_modal',
   data () {
     return {
-      file: '',
       name: '',
-      error: null
+      link: '',
+      songs_id: [],
+      user_songs: [],
+      error: null,
+      fields_activated: '',
+      playlist_id: null
     }
   },
   methods: {
     async add_song () {
+      console.log('add_song: mode = ' + this.fields_activated + '; playlist : ' + this.playlist_id)
       try {
-        let formData = new FormData()
-        formData.append('track', this.file)
-        formData.append('name', this.name)
-        const response = await SongService.add_song(formData)
+        var response = ''
+        if (this.fields_activated === 'file') {
+          console.log('Songs ID : ')
+          console.log(this.songs_id)
+          response = await PlaylistService.add_song(this.playlist_id, this.songs_id)
+        } else {
+          if (this.name === '' || this.link === '') {
+            alert('Name and link cannot be empty')
+          } else {
+            // response = await PlaylistService.add_song_youtube(this.playlist_id, {
+            //   name: this.name,
+            //   youtubeUrl: this.link})
+            response = await SongService.add_youtube_song({
+              name: this.name,
+              youtubeUrl: this.link})
+          }
+        }
         console.log('Response :')
         console.log(response)
-        this.$router.push({
-          name: 'list'
-        })
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error
@@ -65,9 +100,39 @@ export default {
         console.log(error)
       }
     },
-    handleFileUpload () {
-      this.file = this.$refs.file.files[0]
+    async get_songs () {
+      console.log('get_songs')
+      try {
+        const response = await SongService.get_songs()
+        this.user_songs = response.data.songs
+        console.log(response)
+      } catch (error) {
+        this.error = error.response.data.error
+        alert(this.error)
+        console.log(this.error)
+        console.log(error)
+      }
+    },
+    set_link_fields (event) {
+      this.fields_activated = 'link'
+      document.getElementById('via_link_but').classList.add('is-primary')
+      document.getElementById('via_file_but').classList.remove('is-primary')
+      return 0
+    },
+    set_file_fields (event) {
+      this.fields_activated = 'file'
+      document.getElementById('via_file_but').classList.add('is-primary')
+      document.getElementById('via_link_but').classList.remove('is-primary')
+      return 0
     }
+  },
+  components: {
+    SongAddObject
+  },
+  mounted () {
+    this.set_link_fields()
+    this.get_songs()
+    this.playlist_id = this.$route.params.id
   }
 }
 </script>
