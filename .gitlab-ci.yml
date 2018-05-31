@@ -31,9 +31,10 @@ test server:
 test server coverage:
   stage: test
   script:
-    -cd server
-    -npm install
-    -istanbul cover _mocha
+    - cd server
+    - npm install
+    - npm -g install mocha istanbul
+    - istanbul cover _mocha
 
 pack server:
   stage: deploy
