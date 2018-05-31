@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "NODE_ENV=test mocha ",
-    "start": "nodemon ./bin/www"
+      "dev": "nodemon ./bin/www",
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
