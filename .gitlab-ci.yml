@@ -5,7 +5,7 @@ image: node:10
 services:
   - mongo
 
-environment:
+variables:
   DATABASE_URL: mongo
 
 # This folder is cached between builds
@@ -14,8 +14,8 @@ cache:
   paths:
   - node_modules/
 
-test:
-  stage: test server
+test server:
+  stage: test
   script:
     - cd server
     - npm install
