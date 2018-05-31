@@ -1,4 +1,6 @@
-FROM node:latest
+FROM node:10-stretch
+RUN apt-get --yes update
+RUN apt-get --yes install ffmpeg
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
