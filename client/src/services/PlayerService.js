@@ -1,5 +1,5 @@
 export default {
-  play_playlist (songs) {
+  play_playlist (player, songs) {
     console.log('call function : PlayerService.play_playlist')
     let songsToPlay = []
     for (var i = 0; i < songs.length; i++) {
@@ -8,8 +8,8 @@ export default {
         url: 'http://localhost:3000/v1/songs/bin/' + songs[i].fileAudioBin
       })
     }
-    this.$player.list.clear()
-    this.$player.list.add(songsToPlay)
-    this.$player.toggle()
+    player.state.player.list.clear()
+    player.state.player.list.add(songsToPlay)
+    player.state.player.toggle()
   }
 }

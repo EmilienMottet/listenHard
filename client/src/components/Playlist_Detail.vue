@@ -9,10 +9,6 @@
       <button class="button is-danger" @click="show_delete">Delete playlist</button>
       <button class="button is-warning" @click="play_playlist"> Play this playlist</button>
     </div>
-    <span>
-      <audio id="file_audio"></audio>
-      <!-- SONGS : {{playlist_songs}} -->
-    </span>
     <div class="song_list">
       <SongObject
         v-for="song in playlist_songs"
@@ -33,7 +29,7 @@ import AddSong from '@/components/modals/AddSong_modal.vue'
 import Delete from '@/components/modals/DeletePlaylist_modal.vue'
 import PlaylistService from '@/services/PlaylistService'
 import SongService from '@/services/SongService'
-// import PlayerService from '@/services/PlayerService'
+import PlayerService from '@/services/PlayerService'
 
 export default {
   name: 'Playlist_Detail',
@@ -105,21 +101,7 @@ export default {
       })
     },
     play_playlist () {
-      // PlayerService.play_playlist(this.playlist_songs)
-      console.log('call function : PlayerService.play_playlist')
-      let songsToPlay = []
-      for (var i = 0; i < this.playlist_songs.length; i++) {
-        songsToPlay.push({
-          name: this.playlist_songs[i].name,
-          url: 'http://localhost:3000/v1/songs/bin/' + this.playlist_songs[i].fileAudioBin
-        })
-      }
-      this.$store.state.player.list.clear()
-      this.$store.state.player.list.add(songsToPlay)
-      this.$store.state.player.toggle()
-      // this.$player.list.clear()
-      // this.$player.list.add(songsToPlay)
-      // this.$player.toggle()
+      PlayerService.play_playlist(this.$player, this.playlist_songs)
     }
   },
   components: {

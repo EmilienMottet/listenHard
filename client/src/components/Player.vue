@@ -7,6 +7,7 @@
 <script>
 import SongService from '@/services/SongService'
 import PlaylistService from '@/services/PlaylistService'
+// import store from '@/store/store'
 // import APlayer from 'aplayer'
 
 export default {
@@ -54,21 +55,17 @@ export default {
     }
   },
   mounted () {
-    // this.load_musics()
-    this.$store.dispatch('setPlayer', {
-      container: document.getElementById('aplayer'),
-      audio: [{
-        name: 'BITOCUL',
-        url: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
-      }]
-    })
-    // this.$player = new APlayer({
-    //   container: document.getElementById('aplayer'),
-    //   audio: [{
-    //     name: 'BITOCUL',
-    //     url: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
-    //   }]
-    // })
+    if (this.$player.state.player === null) {
+      // this.$store.dispatch('setPlayer', {
+      //   container: document.getElementById('aplayer'),
+      //   audio: [{
+      //     name: 'BITOCUL',
+      //     url: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
+      //   }]
+      // })
+      // this.$store.dispatch('setPlayer')
+      this.$player.dispatch('setPlayer')
+    }
   }
 }
 </script>
