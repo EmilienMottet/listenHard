@@ -1,35 +1,35 @@
 <template>
-  <div class="login">
-    <div class="login_header">
+  <div class="addsong">
+    <div class="addsong_header">
       <h2>Upload a mp3 file</h2>
     </div>
 
-    <!-- <form name="login_form"> -->
+    <form name="addsong_form" v-on:submit.prevent="add_song">
       <fieldset>
         <div class="field">
           <label class="label" for="name">Name</label>
           <div class="control">
-            <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the song">
+            <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the song" required/>
           </div>
         </div>
 
         <div class="field">
           <label class="label" for="file">File</label>
           <div class="control">
-            <input class="input" type="file" name="file" placeholder="Choose a file" ref="file" v-on:change="handleFileUpload()"/>
+            <input class="input" type="file" name="file" placeholder="Choose a file" ref="file" v-on:change="handleFileUpload()" required/>
           </div>
         </div>
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link" @click="add_song">Add</button>
+            <button class="button is-link">Add</button>
           </div>
           <div class="control">
-            <button class="button is-text" @click="$emit('close')">Cancel</button>
+            <button class="button is-text" @click="$emit('close')" type="button">Cancel</button>
           </div>
         </div>
       </fieldset>
-    <!-- </form> -->
+    </form>
   </div>
 </template>
 
@@ -54,6 +54,12 @@ export default {
         const response = await SongService.add_song(formData)
         console.log('Response :')
         console.log(response)
+        this.$router.push({
+          name: 'home'
+        })
+        this.$router.push({
+          name: 'files'
+        })
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error
@@ -74,7 +80,7 @@ export default {
     border: none;
     padding: 1em;
   }
-  .login_header{
+  .addsong_header{
     width: 100%;
     text-align: center;
     border-bottom: 1px solid lightgrey;

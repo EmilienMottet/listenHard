@@ -10,9 +10,10 @@
     <div class="song_list">
       <SongObject
         v-for="file in files"
-        v-bind:song_name="file.name"
-        v-bind:song_ID="file._id"
-        v-bind:key="file._id"
+        :song_name="file.name"
+        :song_ID="file._id"
+        :song_bin_ID="file.fileAudioBin"
+        :key="file._id"
       >
       </SongObject>
     </div>
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import SongObject from '@/components/Song_object.vue'
+import SongObject from '@/components/objects/Song_object.vue'
 import UploadSong from '@/components/modals/UploadSong_modal.vue'
 import SongService from '@/services/SongService'
 
@@ -28,32 +29,35 @@ export default {
   name: 'Files',
   data: function () {
     return {
-      files: [
-      ]
+      files: []
     }
   },
   mounted () {
     this.get_songs()
   },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'reload'
+  },
   methods: {
+    reload () {
+      this.files = []
+      this.get_songs()
+    },
     async get_songs () {
       console.log('get_songs')
       try {
         const response = await SongService.get_songs()
         this.files = response.data.songs
-        console.log(response)
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error
         alert(this.error)
         console.log(this.error)
-        console.log(error)
       }
     },
     show_add: function (event) {
-      this.$modal.show(UploadSong, {
-        text: 'This text is passed as a property'
-      }, {
+      this.$modal.show(UploadSong, {}, {
         height: 'auto'
       })
     }

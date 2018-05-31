@@ -29,7 +29,7 @@ export default {
     return Api().post('playlists/' + id + '/songs', songid)
   },
   remove_song (id, song) {
-    console.log('call function : PlaylistService.del_song(' + id + ')')
+    console.log('call function : PlaylistService.remove_song(' + id + ' , ' + song + ' )')
     return Api().delete('playlists/' + id + '/songs', song)
   }
 }

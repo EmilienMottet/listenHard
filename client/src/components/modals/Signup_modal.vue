@@ -1,39 +1,39 @@
 <template>
-  <div class="login">
-    <div class="login_header">
+  <div class="signup">
+    <div class="signup_header">
       <h2>Sign Up to ListenHub</h2>
     </div>
-    <!-- <form name="login_form"> -->
+    <form name="signup_form" v-on:submit.prevent="register">
       <fieldset>
         <div class="field">
           <label class="label" for="email">E-mail</label>
           <div class="control">
-            <input class="input" type="email" name="email" v-model="email" placeholder="Enter your e-mail">
+            <input class="input" type="email" name="email" v-model="email" placeholder="Enter your e-mail" required>
           </div>
         </div>
         <div class="field">
           <label class="label" for="pwd">Password</label>
           <div class="control">
-            <input class="input" type="password" name="pwd" v-model="password" placeholder="Enter your password">
+            <input class="input" type="password" name="pwd" v-model="password" placeholder="Enter your password" required>
           </div>
         </div>
         <div class="field">
           <label class="label" for="pwd_conf">Password Confirmation</label>
           <div class="control">
-            <input class="input" type="password" name="pwd_conf" v-model="passwordconf" placeholder="Confirm your password">
+            <input class="input" type="password" name="pwd_conf" v-model="passwordconf" placeholder="Confirm your password" required>
           </div>
         </div>
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link" @click="register">Sign Up</button>
+            <button class="button is-link">Sign Up</button>
           </div>
           <div class="control">
-            <button class="button is-text" @click="$emit('close')">Cancel</button>
+            <button class="button is-text" @click="$emit('close')" type="button">Cancel</button>
           </div>
         </div>
       </fieldset>
-    <!-- </form> -->
+    </form>
   </div>
 </template>
 
@@ -53,6 +53,10 @@ export default {
   methods: {
     async register () {
       console.log('Signup : mail = ' + this.email + '; password = ' + this.password)
+      if (this.password !== this.passwordconf) {
+        alert('Passwords doesn\'t match !')
+        return -1
+      }
       try {
         const response = await AuthenticationService.signup({
           email: this.email,
@@ -80,7 +84,7 @@ export default {
     border: none;
     padding: 1em;
   }
-  .login_header{
+  .signup_header{
     width: 100%;
     text-align: center;
     border-bottom: 1px solid lightgrey;

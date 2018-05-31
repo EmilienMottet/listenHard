@@ -5,9 +5,9 @@
       <h2>Your playlists</h2>
     </div>
     <button class="button is-success" @click="show_add">Create Playlist</button>
-    <button class="button is-success" @click="get_playlists">Load Playlist</button>
+    <!-- <button class="button is-success" @click="get_playlists">Load Playlist</button> -->
   </div>
-  <div class="playlist_list">
+  <div class="playlist_list" @reload="get_playlists">
     <PLObject
       v-for="playlist in user_playlists"
       v-bind:playlist_name="playlist.name"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import PLObject from '@/components/Playlist_object.vue'
+import PLObject from '@/components/objects/Playlist_object.vue'
 import CreatePlaylist from '@/components/modals/CreatePlaylist_modal'
 import PlaylistService from '@/services/PlaylistService'
 
@@ -29,17 +29,24 @@ export default {
   name: 'Playlist_List',
   data: function () {
     return {
-      newTodoText: '',
       user_playlists: []
     }
   },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'reload'
+  },
   methods: {
+    reload () {
+      this.playlist_songs_id = []
+      this.get_playlists()
+    },
     async get_playlists () {
       console.log('get_playlists')
       try {
         const response = await PlaylistService.get_playlists()
         this.user_playlists = response.data.playlists
-        console.log(response)
+        // console.log(response)
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error
@@ -49,7 +56,7 @@ export default {
       }
     },
     show_add: function (event) {
-      this.$modal.show(CreatePlaylist, {
+      this.$modal.show(CreatePlaylist, {}, {
         text: 'This text is passed as a property'
       }, {
         height: 'auto'
@@ -68,6 +75,7 @@ export default {
 <style scoped>
   .playlist_list{
     display: flex;
+    flex-wrap: wrap;
   }
   .playlist_info{
     display: flex;

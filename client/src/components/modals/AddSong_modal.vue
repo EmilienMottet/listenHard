@@ -1,27 +1,27 @@
 <template>
-  <div class="login">
-    <div class="login_header">
+  <div class="addsong">
+    <div class="addsong_header">
       <h2>Add a song to the playlist</h2>
     </div>
 
-    <!-- <form name="login_form"> -->
     <div class="add_choice">
       <button id="via_link_but" class="button" @click="set_link_fields">Link</button>
       <button id="via_file_but" class="button" @click="set_file_fields">File</button>
     </div>
 
+    <form name="addsong_form" v-on:submit.prevent="add_song">
       <fieldset>
-        <div id="via_link_fields" v-show="fields_activated == 'link'">
+        <div id="via_link_fields" v-if="fields_activated == 'link'">
           <div class="field">
             <label class="label" for="link">Link</label>
             <div class="control">
-              <input class="input" type="text" name="link" v-model="link" placeholder="Enter the link to the song">
+              <input class="input" type="text" name="link" v-model="link" placeholder="Enter the link to the song" required>
             </div>
           </div>
           <div class="field">
             <label class="label" for="name">Name</label>
             <div class="control">
-              <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the song">
+              <input class="input" type="text" name="name" v-model="name" placeholder="Enter the name of the song" required>
             </div>
           </div>
         </div>
@@ -35,26 +35,25 @@
             v-model="songs_id"
             >
           </SongAddObject>
-          <span>Songs : {{songs_id}}</span>
         </div>
 
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link" @click="add_song">Add</button>
+            <button class="button is-link">Add</button>
           </div>
           <div class="control">
-            <button class="button is-text" @click="$emit('close')">Cancel</button>
+            <button class="button is-text" @click="$emit('close')" type="button">Cancel</button>
           </div>
         </div>
       </fieldset>
-    <!-- </form> -->
+    </form>
   </div>
 </template>
 
 <script>
 import SongService from '@/services/SongService'
 import PlaylistService from '@/services/PlaylistService'
-import SongAddObject from '@/components/Song_add_object'
+import SongAddObject from '@/components/objects/Song_add_object'
 
 export default {
   name: 'AddSong_modal',
@@ -75,29 +74,34 @@ export default {
       try {
         var response = ''
         if (this.fields_activated === 'file') {
-          console.log('Songs ID : ')
-          console.log(this.songs_id)
           response = await PlaylistService.add_song(this.playlist_id, this.songs_id)
         } else {
           if (this.name === '' || this.link === '') {
             alert('Name and link cannot be empty')
+            return
           } else {
-            // response = await PlaylistService.add_song_youtube(this.playlist_id, {
-            //   name: this.name,
-            //   youtubeUrl: this.link})
-            response = await SongService.add_youtube_song({
+            let newid = await SongService.add_youtube_song({
               name: this.name,
               youtubeUrl: this.link})
+            console.log(newid)
+            if (newid.status === 201) {
+              response = await PlaylistService.add_song(this.playlist_id, [newid.data.song._id])
+            }
           }
         }
-        console.log('Response :')
+        response = 'Song added'
         console.log(response)
+        this.$router.push({
+          name: 'home'
+        })
+        this.$router.push({
+          path: 'detail/' + this.playlist_id
+        })
         this.$emit('close')
       } catch (error) {
         this.error = error.response.data.error
         alert(this.error)
         console.log(this.error)
-        console.log(error)
       }
     },
     async get_songs () {
@@ -105,12 +109,10 @@ export default {
       try {
         const response = await SongService.get_songs()
         this.user_songs = response.data.songs
-        console.log(response)
       } catch (error) {
         this.error = error.response.data.error
         alert(this.error)
         console.log(this.error)
-        console.log(error)
       }
     },
     set_link_fields (event) {
@@ -142,9 +144,15 @@ export default {
     border: none;
     padding: 1em;
   }
-  .login_header{
+  .addsong_header{
     width: 100%;
     text-align: center;
     border-bottom: 1px solid lightgrey;
+  }
+  .add_choice{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5em;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <label class="song_object" :for="song_ID">
+  <label v-bind:class="{ 'selected' : isChecked }" class="song_object" :for="song_ID">
     <input type="checkbox" :value="song_ID" :id="song_ID" v-model="checked" @change="onChange">
     {{song_name}}
   </label>
@@ -16,7 +16,8 @@ export default {
   ],
   data () {
     return {
-      checkedProxy: false
+      checkedProxy: false,
+      isChecked: false
     }
   },
   computed: {
@@ -32,6 +33,7 @@ export default {
   methods: {
     onChange: function (e) {
       this.$emit('input', this.checkedProxy)
+      this.isChecked = !this.isChecked
     }
   }
 }
@@ -52,24 +54,9 @@ export default {
   background: lightgrey;
  }
 
- .song_info{
-  width: 100%;
-  text-align: left;
-  padding-left: 2em;
+ .selected{
+   background-color: lightgreen;
+   border-color: green;
  }
 
- img{
-  width: 50px;
-  height: 50px;
-  background: grey;
- }
-
- .song_name{
-  font-weight: bold;
-  font-size: 1em;
- }
- .song_link{
-  color: grey;
-  font-size: 0.8em;
- }
 </style>
