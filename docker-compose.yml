@@ -1,0 +1,27 @@
+version: "3"
+services:
+  client:
+    container_name: client
+    restart: always
+    build: ./client
+    ports:
+      - "8080:8080"
+    environment:
+      - API_URL=http://server/v1
+  server:
+    container_name: server
+    restart: always
+    build: ./server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      - DATABASE_URL=mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
