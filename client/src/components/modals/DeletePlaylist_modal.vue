@@ -1,20 +1,20 @@
 <template>
-  <div class="login">
-    <div class="login_header">
+  <div class="delplay">
+    <div class="delplay_header">
       <h2 class="important">Are you sure you want to delete the playlist ?</h2>
     </div>
-    <!-- <form name="login_form"> -->
+    <form name="delplay_form" v-on:submit.prevent="delete_playlist">
       <fieldset>
         <div class="field is-grouped">
           <div class="control">
-            <button class="button is-link is-danger" @click="delete_playlist">Delete</button>
+            <button class="button is-link is-danger">Delete</button>
           </div>
           <div class="control">
-            <button class="button is-text" @click="$emit('close')">Cancel</button>
+            <button class="button is-text" @click="$emit('close')" type="button">Cancel</button>
           </div>
         </div>
       </fieldset>
-    <!-- </form> -->
+    </form>
   </div>
 </template>
 
@@ -51,7 +51,7 @@ export default {
     display: flex;
     justify-content:center;
   }
-  .login_header{
+  .delplay_header{
     width: 100%;
     text-align: center;
     border-bottom: 1px solid lightgrey;

@@ -11,5 +11,14 @@ export default {
     player.state.player.list.clear()
     player.state.player.list.add(songsToPlay)
     player.state.player.toggle()
+  },
+  play_song (player, song) {
+    console.log('call function : PlayerService.play_song')
+    player.state.player.list.clear()
+    player.state.player.list.add({
+      name: song.name,
+      url: 'http://localhost:3000/v1/songs/bin/' + song.fileAudioBin
+    })
+    player.state.player.toggle()
   }
 }

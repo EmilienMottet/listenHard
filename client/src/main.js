@@ -20,21 +20,21 @@ Vue.prototype.$player = new Vuex.Store({
       if (state.player === null) {
         state.player = new APlayer({
           container: document.getElementById('aplayer'),
-          audio: [{
-            name: 'BITOCUL',
-            url: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
-          }]
+          audio: []
         })
       }
     },
-    changePlaylist (state, playlistsongs) {
-      // state.player
-      console.log('todo')
+    deletePlayer (state) {
+      state.player.pause()
+      state.player = null
     }
   },
   actions: {
     setPlayer ({commit}) {
       commit('setPlayer')
+    },
+    deletePlayer ({commit}) {
+      commit('deletePlayer')
     }
   }
 })

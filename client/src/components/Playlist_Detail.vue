@@ -12,11 +12,12 @@
     <div class="song_list">
       <SongObject
         v-for="song in playlist_songs"
-        v-bind:song_name="song.name"
-        v-bind:song_ID="song._id"
-        v-bind:song_bin_ID="song.fileAudioBin"
-        v-bind:key="song._id"
-        v-bind:playlist_id="id"
+        :song_name="song.name"
+        :song_ID="song._id"
+        :song_bin_ID="song.fileAudioBin"
+        :key="song._id"
+        :playlist_id="id"
+        :removable="true"
       >
       </SongObject>
     </div>
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import SongObject from '@/components/Song_object.vue'
+import SongObject from '@/components/objects/Song_object.vue'
 import AddSong from '@/components/modals/AddSong_modal.vue'
 import Delete from '@/components/modals/DeletePlaylist_modal.vue'
 import PlaylistService from '@/services/PlaylistService'
@@ -46,11 +47,20 @@ export default {
   mounted () {
     this.id = this.$route.params.id
     this.get_playlist()
-    this.retrieve_songs()
-    console.log('PLAYER :')
-    console.log(this.$player)
+    // this.retrieve_songs()
+  },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'reload'
   },
   methods: {
+    reload () {
+      this.playlist_songs = []
+      this.playlist_songs_id = []
+      this.user_songs = []
+      this.playlist_object = null
+      this.get_playlist()
+    },
     async get_playlist () {
       console.log('get_playlist')
       try {
@@ -65,6 +75,7 @@ export default {
         console.log(this.error)
         console.log(error)
       }
+      this.retrieve_songs()
     },
     async retrieve_songs () {
       console.log('retrieve_songs')
@@ -87,16 +98,13 @@ export default {
       }
     },
     show_add: function (event) {
-      this.$modal.show(AddSong, {
-        text: 'This text is passed as a property'
-      }, {
-        height: 'auto'
+      this.$modal.show(AddSong, {}, {
+        height: 'auto',
+        scrollable: true
       })
     },
     show_delete: function (event) {
-      this.$modal.show(Delete, {
-        text: 'This text is passed as a property'
-      }, {
+      this.$modal.show(Delete, {}, {
         height: 'auto'
       })
     },
@@ -128,5 +136,13 @@ export default {
   }
   .playlist_info button{
     margin-left: 1em;
+  }
+  @media only screen and (max-width: 600px) {
+    .playlist_info {
+      flex-direction: column;
+    }
+    .playlist_info button{
+      margin-top: 0.5em;
+    }
   }
 </style>
