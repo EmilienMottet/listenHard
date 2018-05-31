@@ -1,6 +1,6 @@
 # listenHard by listenHub
 
-[![Build Status](https://codeship.com/projects/292250/status?branch=master)](https://codeship.com/projects/292250/status?branch=master)
+[ ![Codeship Status for listenHub/listenHard](https://app.codeship.com/projects/7a10ffa0-4726-0136-3dd8-2e579038a130/status?branch=master)](https://app.codeship.com/projects/292250)
 
 ### Client
                 
