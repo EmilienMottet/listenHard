@@ -28,8 +28,8 @@ export default {
     const songid = resp.data.songs._id
     return Api().post('playlists/' + id + '/songs', songid)
   },
-  del_song (id, song) {
+  remove_song (id, song) {
     console.log('call function : PlaylistService.del_song(' + id + ')')
-    return Api().put('playlists/' + id, song)
+    return Api().delete('playlists/' + id + '/songs', song)
   }
 }

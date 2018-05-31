@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
+import APlayer from 'aplayer'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    player: null
   },
   mutations: {
     setToken (state, token) {
@@ -25,6 +27,13 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+    },
+    setPlayer (state, playerinfo) {
+      state.player = new APlayer(playerinfo)
+    },
+    changePlaylist (state, playlistsongs) {
+      // state.player
+      console.log('todo')
     }
   },
   actions: {
@@ -33,6 +42,9 @@ export default new Vuex.Store({
     },
     setUser ({commit}, user) {
       commit('setUser', user)
+    },
+    setPlayer ({commit}, playerinfo) {
+      commit('setPlayer', playerinfo)
     }
   }
 })

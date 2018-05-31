@@ -4,18 +4,40 @@
     <div class="song_info">
       <p class="song_name">{{song_name}}</p>
       <p class="song_link">ID : {{song_ID}}</p>
+      <p class="song_link">BIN ID : {{song_bin_ID}}</p>
     </div>
-    <button class="delete is-large"></button>
+    <button class="delete is-large" @click="remove_song"></button>
   </div>
 </template>
 
 <script>
+import PlaylistService from '@/services/PlaylistService'
+
 export default {
   name: 'song_object',
+  data () {
+    return {
+      error: null
+    }
+  },
   props: [
     'song_name',
-    'song_ID'
-  ]
+    'song_ID',
+    'song_bin_ID',
+    'playlist_id'
+  ],
+  methods: {
+    remove_song () {
+      try {
+        const response = PlaylistService.remove_song(this.playlist_id, this.song_ID)
+        console.log(response)
+      } catch (error) {
+        this.error = error.response.data.error
+        console.log(this.error)
+        alert(this.error)
+      }
+    }
+  }
 }
 </script>
 

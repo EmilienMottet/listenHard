@@ -20,5 +20,8 @@ export default {
   // },
   get_songs () {
     return Api().get('songs')
+  },
+  get_song_bin (id) {
+    return Api().get('songs/bin/' + id)
   }
 }

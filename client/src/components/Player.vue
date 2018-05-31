@@ -1,32 +1,74 @@
 <template>
   <div class="player_songs">
-    <Aplayer
-  :music="musics[0]"
-  :list="musics"/>
+    <div id="aplayer"></div>
   </div>
 </template>
 
 <script>
-import Aplayer from 'vue-aplayer'
+import SongService from '@/services/SongService'
+import PlaylistService from '@/services/PlaylistService'
+// import APlayer from 'aplayer'
 
 export default {
   name: 'Player',
-  components: {
-    Aplayer
-  },
   data () {
     return {
       musics: [
-        {
-          title: 'Test title',
-          src: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
-        },
-        {
-          title: 'CHOUBIDA',
-          src: 'http://freesound.org/data/previews/363/363696_1391542-lq.mp3'
-        }
-      ]
+        { title: 'Nothing', src: '#' }
+      ],
+      error: null
     }
+  },
+  methods: {
+    async load_musics () {
+      try {
+        this.musics = []
+        console.log('TEST')
+        var plSongs = await PlaylistService.get_playlist('5b05e3ed8ec1f50a20f07e51').data.playlist.songs
+
+        console.log('plsongs : ')
+        console.log(plSongs)
+
+        var userSongs = await SongService.get_songs().data.songs
+        console.log('userSongs : ')
+        console.log(userSongs)
+        for (var i = 0; i < userSongs.length; i++) {
+          for (var j = 0; j < plSongs.length; j++) {
+            if (plSongs[j]._id === userSongs[i]._id) {
+              this.musics.push({
+                name: userSongs[i].name,
+                id: userSongs[i]._id
+              })
+              break
+            }
+          }
+        }
+        alert('CHABADA')
+        console.log(this.musics)
+      } catch (error) {
+        console.log('ERROR')
+        this.error = error.response.data.error
+        console.log(this.error)
+        alert(this.error)
+      }
+    }
+  },
+  mounted () {
+    // this.load_musics()
+    this.$store.dispatch('setPlayer', {
+      container: document.getElementById('aplayer'),
+      audio: [{
+        name: 'BITOCUL',
+        url: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
+      }]
+    })
+    // this.$player = new APlayer({
+    //   container: document.getElementById('aplayer'),
+    //   audio: [{
+    //     name: 'BITOCUL',
+    //     url: 'http://freesound.org/data/previews/316/316830_4939433-lq.mp3'
+    //   }]
+    // })
   }
 }
 </script>
