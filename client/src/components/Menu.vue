@@ -42,14 +42,14 @@ export default {
   name: 'Menu',
   methods: {
     show_login: function (event) {
-      this.$modal.show(Login, {
+      this.$modal.show(Login, {}, {
         text: 'This text is passed as a property'
       }, {
         height: 'auto'
       })
     },
     show_signup: function (event) {
-      this.$modal.show(Signup, {
+      this.$modal.show(Signup, {}, {
         text: 'This text is passed as a property'
       }, {
         height: 'auto'
@@ -59,12 +59,33 @@ export default {
       console.log('Log out')
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)
+      this.$player.dispatch('deletePlayer')
       this.$router.push({
         name: 'home'
       })
     }
   }
 }
+
+// Code from Bulma for mobile
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all "navbar-burger" elements
+  var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0)
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+  // Add a click event on each of them
+    $navbarBurgers.forEach(function ($el) {
+      $el.addEventListener('click', function () {
+        // Get the target from the "data-target" attribute
+        var target = $el.dataset.target
+        var $target = document.getElementById(target)
+        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+        $el.classList.toggle('is-active')
+        $target.classList.toggle('is-active')
+      })
+    })
+  }
+})
 </script>
 
 <style scoped>

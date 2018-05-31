@@ -1,6 +1,6 @@
 <template>
   <div class="playlist_object" @click="open_playlist">
-    <img src="" alt="playlist_image">
+    <img src="@/assets/logo_pl.png" alt="playlist_image">
     <h2 class="pl_name">{{playlist_name}}</h2>
     <h3 class="nb_songs">{{nb_songs}} songs</h3>
   </div>
@@ -42,7 +42,6 @@ export default {
  img{
   width: 100px;
   height: 100px;
-  background: grey;
  }
 
  .pl_name{

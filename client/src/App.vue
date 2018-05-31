@@ -1,23 +1,20 @@
 <template>
   <div id="app">
     <Menu/>
-    <router-view/>
-    <Footer/>
-    <Player/>
+    <router-view v-bind:class="{ 'show_player' : $store.state.isUserLoggedIn }" />
+    <Player  v-if="$store.state.isUserLoggedIn"/>
     <modals-container/>
   </div>
 </template>
 
 <script>
 import Menu from '@/components/Menu.vue'
-import Footer from '@/components/Footer.vue'
 import Player from '@/components/Player.vue'
 
 export default {
   name: 'App',
   components: {
     Menu,
-    Footer,
     Player
   }
 }
@@ -29,12 +26,12 @@ export default {
 }
 
 #app {
-  //font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  //color: #2c3e50;
-  //  margin-top: 60px;
+}
+
+.show_player{
   margin-bottom: 80px;
 }
 </style>
