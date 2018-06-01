@@ -6,6 +6,8 @@
 [![Build Status](https://travis-ci.org/EmilienMottet/listenHard.svg?branch=master)](https://travis-ci.org/EmilienMottet/listenHard)
 [![StyleCI](https://gitlab.styleci.io/repos/6269833/shield?branch=master)](https://gitlab.styleci.io/repos/6269833)
 [![Coverage Status](https://coveralls.io/repos/github/EmilienMottet/listenHard/badge.svg?branch=)](https://coveralls.io/github/EmilienMottet/listenHard?branch=)
+[![Codecov](https://img.shields.io/codecov/c/gitlab/listenHub/listenHard.svg)](https://codecov.io/gl/listenhub/listenhard/)
+
 ### Client
                 
 [![Known Vulnerabilities](https://snyk.io/test/github/emilienmottet/listenhard/badge.svg?targetFile=client%2Fpackage.json)](https://snyk.io/test/github/emilienmottet/listenhard?targetFile=client%2Fpackage.json)
