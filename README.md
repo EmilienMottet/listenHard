@@ -25,9 +25,11 @@ https://trello.com/b/Kje6DPCn/skate
 
 https://ensiwiki.ensimag.fr/index.php?title=CAW1_2018_Projet_de_Emilien_MOTTET_et_Amaury_PUNEL
 
-## Build Setup
+## Install 
 
 ``` bash
+git clone https://gitlab.com/listenHub/listenHard.git
+cd listenHard
 docker-compose build
 docker-compose up
 ```
