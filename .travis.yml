@@ -4,10 +4,14 @@ node_js:
 
 services: mongodb
 
-env:
-  - TEST_DIR=client
-  - TEST_DIR=server
-
-before_install: cd $TEST_DIR
-install: npm install
-script: npm test
+jobs:
+  include:
+    - stage: test
+      before_install: echo $HOME && pwd && cd server
+      install: npm install
+      script: npm test
+      script: nyc npm test && nyc report --reporter=text-lcov | coveralls
+    - # stage name not required, will continue to use `test`
+      before_install: cd client
+      install: npm install
+      script: npm test
