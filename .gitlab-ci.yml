@@ -36,6 +36,16 @@ test server coverage:
     - npm -g install mocha istanbul
     - istanbul cover _mocha
 
+test codeconv coverage:
+  stage: test
+  script:
+    - cd server
+    - npm install -g mocha nyc chai
+    - npm install
+    - nyc npm test
+    - nyc report --reporter=text-lcov > coverage.lcov
+    - ./node_modules/.bin/codecov --token=${CODECOV_TOKEN}
+
 pack server:
   stage: deploy
   script:
