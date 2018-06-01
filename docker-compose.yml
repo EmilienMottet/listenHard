@@ -7,7 +7,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - API_URL=http://server/v1
+      - API_URL=http://localhost:3000/v1
+    networks:
+      - net
   server:
     container_name: server
     restart: always
@@ -18,10 +20,17 @@ services:
       - mongo
     environment:
       - DATABASE_URL=mongo
+    networks:
+      - net
   mongo:
     container_name: mongo
     image: mongo
     volumes:
       - ./data:/data/db
+    networks:
+      - net
     ports:
       - "27017:27017"
+
+networks:
+    net:
