@@ -11,3 +11,4 @@ env:
 before_install: cd $TEST_DIR
 install: npm install
 script: npm test
+script: nyc npm test && nyc report --reporter=text-lcov | coveralls
