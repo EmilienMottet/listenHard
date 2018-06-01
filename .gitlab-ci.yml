@@ -1,7 +1,12 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: node:latest
+image: node:10
+services:
+  - mongo
+
+variables:
+  DATABASE_URL: mongo
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -9,15 +14,42 @@ cache:
   paths:
   - node_modules/
 
-test:
+test client:
   stage: test
   script:
+    - cd client
     - npm install
     - npm test
 
-pack:
+test server:
+  stage: test
+  script:
+    - cd server
+    - npm install
+    - npm test
+
+test server coverage:
+  stage: test
+  script:
+    - cd server
+    - npm install
+    - npm -g install mocha istanbul
+    - istanbul cover _mocha
+
+pack server:
   stage: deploy
   script:
+    - cd server
+    - npm install
+    - npm pack
+  artifacts:
+    paths:
+    - ./*.tgz
+
+pack client:
+  stage: deploy
+  script:
+    - cd client
     - npm install
     - npm pack
   artifacts:
