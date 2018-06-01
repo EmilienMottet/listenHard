@@ -13,9 +13,9 @@
       <fieldset>
         <div id="via_link_fields" v-if="fields_activated == 'link'">
           <div class="field">
-            <label class="label" for="link">Link</label>
+            <label class="label" for="link">Link ( Youtube )</label>
             <div class="control">
-              <input class="input" type="text" name="link" v-model="link" placeholder="Enter the link to the song" required>
+              <input class="input" type="text" name="link" v-model="link" placeholder="Enter a youtube link" required>
             </div>
           </div>
           <div class="field">

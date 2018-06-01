@@ -57,8 +57,6 @@ export default {
     },
     show_add: function (event) {
       this.$modal.show(CreatePlaylist, {}, {
-        text: 'This text is passed as a property'
-      }, {
         height: 'auto'
       })
     }

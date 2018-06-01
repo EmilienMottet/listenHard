@@ -43,15 +43,11 @@ export default {
   methods: {
     show_login: function (event) {
       this.$modal.show(Login, {}, {
-        text: 'This text is passed as a property'
-      }, {
         height: 'auto'
       })
     },
     show_signup: function (event) {
       this.$modal.show(Signup, {}, {
-        text: 'This text is passed as a property'
-      }, {
         height: 'auto'
       })
     },
