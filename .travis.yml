@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  v10.0.0
+
+services: mongodb
+
+env:
+  - TEST_DIR=client
+  - TEST_DIR=server
+
+before_install: cd $TEST_DIR
+install: npm install
+script: npm test

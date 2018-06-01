@@ -1,6 +1,8 @@
 # listenHard by listenHub
 
 [ ![Codeship Status for listenHub/listenHard](https://app.codeship.com/projects/7a10ffa0-4726-0136-3dd8-2e579038a130/status?branch=master)](https://app.codeship.com/projects/292250)
+[![Build Status](https://travis-ci.org/EmilienMottet/listenHard.svg?branch=master)](https://travis-ci.org/EmilienMottet/listenHard)
+[![StyleCI](https://gitlab.styleci.io/repos/6269833/shield?branch=master)](https://gitlab.styleci.io/repos/6269833)
 
 ### Client
                 
