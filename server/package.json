@@ -5,7 +5,9 @@
   "scripts": {
     "test": "NODE_ENV=test mocha ",
     "dev": "nodemon ./bin/www",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
@@ -30,7 +32,8 @@
     "serve-favicon": "~2.5.0",
     "swagger-ui-express": "^3.0.8",
     "yamljs": "^0.3.0",
-    "ytdl-core": "^0.20.4"
+    "ytdl-core": "^0.20.4",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -46,5 +49,6 @@
     "mocha": "^5.1.1",
     "nyc": "^11.8.0",
     "supertest": "^3.1.0"
-  }
+  },
+  "snyk": true
 }
