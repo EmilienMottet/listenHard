@@ -28,7 +28,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "serve-favicon": "~2.5.0",
-    "swagger-ui-express": "^3.0.8",
+    "swagger-ui-express": "^4.3.0",
     "yamljs": "^0.3.0",
     "ytdl-core": "^0.20.4"
   },
